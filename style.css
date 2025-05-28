@@ -23,6 +23,15 @@ body {
     background: #64748b;
 }
 
+.page-select {
+    background-color: #1d4ed8;
+    color: white;
+    font-weight: 600;
+    border-radius: 9999px;
+    padding: 0.25rem 1rem; /* apenas um leve padding vertical */
+    line-height: 1.5rem; /* mesma altura dos outros links */
+    display: inline-block;
+}
 .nube-container {
     max-width: 100%;
     margin-left: auto;
@@ -53,6 +62,7 @@ body {
 .nube-header-content-wrapper {
     display: flex;
     align-items: center;
+    
 }
 
 .nube-logo {
@@ -71,6 +81,10 @@ body {
     margin-left: 2.5rem;
     display: none;
     column-gap: 2rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: 9999px;
 }
 
 @media (min-width: 768px) {
@@ -793,4 +807,3 @@ body {
     font-size: 0.875rem;
     color: #9ca3af;
 }
-
