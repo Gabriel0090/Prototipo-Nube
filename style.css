@@ -1,0 +1,796 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+    color: #374151;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+.nube-container {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.nube-header {
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 50;
+}
+
+@media (min-width: 768px) {
+    .nube-header {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+}
+
+.nube-header-content-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.nube-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2563eb;
+    transition-property: color;
+    transition-duration: 300ms;
+}
+
+.nube-logo:hover {
+    color: #1d4ed8;
+}
+
+.nube-main-nav {
+    margin-left: 2.5rem;
+    display: none;
+    column-gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .nube-main-nav {
+        display: flex;
+    }
+}
+
+.nube-nav-link {
+    color: #4b5563;
+    font-weight: 500;
+    transition-property: color;
+    transition-duration: 300ms;
+}
+
+.nube-nav-link:hover {
+    color: #2563eb;
+}
+
+.nube-auth-buttons {
+    display: flex;
+    column-gap: 1rem;
+}
+
+.nube-btn-login {
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    color: #2563eb;
+    border: 1px solid #2563eb;
+    transition-property: all;
+    transition-duration: 300ms;
+    font-weight: 500;
+}
+
+.nube-btn-login:hover {
+    background-color: #eff6ff;
+}
+
+.nube-btn-register {
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    background-color: #2563eb;
+    color: #ffffff;
+    transition-property: all;
+    transition-duration: 300ms;
+    font-weight: 500;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.nube-btn-register:hover {
+    background-color: #1d4ed8;
+}
+
+.nube-mobile-menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-left: 1rem;
+}
+
+@media (min-width: 768px) {
+    .nube-mobile-menu-toggle {
+        display: none;
+    }
+}
+
+.nube-mobile-menu-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: #4b5563;
+}
+
+.nube-mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 40;
+    display: none;
+}
+
+.nube-mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 50;
+    padding: 1.5rem;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 1.5rem;
+    padding-top: 5rem;
+}
+
+.nube-mobile-nav.is-open {
+    right: 0;
+}
+
+.nube-mobile-nav-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.nube-mobile-nav-close-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: #4b5563;
+}
+
+.nube-mobile-nav-link {
+    color: #111827;
+    font-weight: 500;
+    font-size: 1.125rem;
+    width: 100%;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nube-mobile-nav-link:last-child {
+    border-bottom: none;
+}
+
+.nube-mobile-nav-link:hover {
+    color: #2563eb;
+}
+
+.nube-mobile-auth-buttons {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.nube-mobile-auth-buttons .nube-btn-login,
+.nube-mobile-auth-buttons .nube-btn-register {
+    width: 100%;
+    text-align: center;
+}
+
+.nube-hero-section {
+    position: relative;
+    background-image: linear-gradient(to right, #2563eb, #1e40af);
+    color: #ffffff;
+    padding: 8rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: 6rem;
+}
+
+@media (min-width: 768px) {
+    .nube-hero-section {
+        padding-top: 12rem;
+        padding-bottom: 12rem;
+        padding-top: 8rem;
+    }
+}
+
+.nube-hero-content {
+    text-align: center;
+    z-index: 10;
+    padding: 0 1rem;
+}
+
+.nube-hero-title {
+    font-size: 2.25rem;
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+}
+
+@media (min-width: 768px) {
+    .nube-hero-title {
+        font-size: 3.75rem;
+    }
+}
+
+.nube-hero-subtitle {
+    font-size: 1.125rem;
+    margin-bottom: 2.5rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.9;
+}
+
+@media (min-width: 768px) {
+    .nube-hero-subtitle {
+        font-size: 1.25rem;
+    }
+}
+
+.nube-search-bar {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 1rem;
+    border-radius: 9999px;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .nube-search-bar {
+        flex-direction: row;
+        row-gap: 0;
+        column-gap: 1rem;
+        background-color: #ffffff;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+}
+
+.nube-search-input {
+    flex: 1;
+    padding: 0.75rem 1.25rem;
+    border-radius: 9999px;
+    border: 1px solid #d1d5db;
+    outline: none;
+    color: #374151;
+}
+
+.nube-search-input:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px #93c5fd;
+}
+
+.nube-search-button {
+    width: 100%;
+    padding: 0.75rem 2rem;
+    background-color: #2563eb;
+    color: #ffffff;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition-property: all;
+    transition-duration: 300ms;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+@media (min-width: 768px) {
+    .nube-search-button {
+        width: auto;
+    }
+}
+
+.nube-search-button:hover {
+    background-color: #1d4ed8;
+}
+
+.nube-search-mobile-hint {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .nube-search-mobile-hint {
+        display: none;
+    }
+}
+
+.nube-content-section {
+    padding: 4rem 0;
+}
+
+@media (min-width: 768px) {
+    .nube-content-section {
+        padding: 6rem 0;
+    }
+}
+
+.nube-section-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .nube-section-title {
+        font-size: 2.25rem;
+    }
+}
+
+.nube-section-white {
+    background-color: #f8fafc;
+}
+
+.nube-section-gray {
+    background-color: #f9fafb;
+}
+
+@media (min-width: 768px) {
+    .nube-section-white {
+        background-color: #ffffff;
+    }
+}
+
+.nube-btn-primary {
+    padding: 0.75rem 2rem;
+    background-color: #2563eb;
+    color: #ffffff;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition-property: all;
+    transition-duration: 300ms;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.nube-btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+.nube-btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #9ca3af;
+    color: #374151;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition-property: all;
+    transition-duration: 300ms;
+}
+
+.nube-btn-secondary:hover {
+    background-color: #f3f4f6;
+}
+
+.nube-btn-details {
+    padding: 0.5rem 1rem;
+    background-color: #2563eb;
+    color: #ffffff;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    transition-property: all;
+    transition-duration: 300ms;
+}
+
+.nube-btn-details:hover {
+    background-color: #1d4ed8;
+}
+
+.nube-centered-button-wrapper {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.nube-how-it-works-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+    .nube-how-it-works-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.nube-step-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: #eff6ff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition-property: box-shadow;
+    transition-duration: 300ms;
+}
+
+.nube-step-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.nube-step-icon-wrapper {
+    background-color: #2563eb;
+    color: #ffffff;
+    border-radius: 9999px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.nube-step-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.75rem;
+}
+
+.nube-step-description {
+    color: #4b5563;
+}
+
+.nube-card-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .nube-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .nube-card-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.nube-vaga-card {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+    transition-property: box-shadow;
+    transition-duration: 300ms;
+}
+
+.nube-vaga-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.nube-vaga-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.nube-vaga-empresa {
+    color: #2563eb;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.nube-vaga-location {
+    color: #4b5563;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.nube-vaga-details-list {
+    color: #374151;
+    font-size: 0.875rem;
+    list-style-type: disc;
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.nube-vaga-footer-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nube-vaga-date-posted {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.nube-candidatura-card {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+}
+
+.nube-status-analise {
+    font-weight: 700;
+    color: #d97706;
+}
+
+.nube-status-visualizado {
+    font-weight: 700;
+    color: #16a34a;
+}
+
+.nube-status-encerrado {
+    font-weight: 700;
+    color: #dc2626;
+}
+
+.nube-profile-card {
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f9fafb;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+}
+
+.nube-profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .nube-profile-header {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+    }
+}
+
+.nube-profile-avatar {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 9999px;
+    background-color: #bfdbfe;
+    color: #1e40af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.875rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    .nube-profile-avatar {
+        margin-bottom: 0;
+        margin-right: 1.5rem;
+    }
+}
+
+.nube-profile-info h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.25rem;
+}
+
+.nube-profile-info p {
+    color: #4b5563;
+    margin-bottom: 0.25rem;
+}
+
+.nube-text-sm {
+    font-size: 0.875rem;
+}
+
+.nube-profile-section-block {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+.nube-profile-section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.nube-profile-text-content {
+    color: #374151;
+    line-height: 1.625;
+}
+
+.nube-profile-list {
+    color: #374151;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.nube-profile-list li {
+    margin-bottom: 0.5rem;
+}
+
+.nube-skills-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.nube-skill-tag {
+    background-color: #dbeafe;
+    color: #1e40af;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.nube-profile-actions {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.nube-profile-action-button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .nube-profile-action-button-group {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.nube-footer {
+    background-color: #1f2937;
+    color: #d1d5db;
+    padding: 4rem 0 2rem;
+}
+
+.nube-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+    .nube-footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .nube-footer-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.nube-footer-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.nube-footer-text {
+    font-size: 0.875rem;
+    line-height: 1.625;
+    margin-bottom: 1rem;
+}
+
+.nube-footer-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.nube-footer-links-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.nube-footer-links-list li {
+    margin-bottom: 0.5rem;
+}
+
+.nube-footer-links-list a {
+    color: #d1d5db;
+    transition-property: color;
+    transition-duration: 300ms;
+}
+
+.nube-footer-links-list a:hover {
+    color: #ffffff;
+}
+
+.nube-social-links {
+    display: flex;
+    column-gap: 1rem;
+    margin-top: 1rem;
+}
+
+.nube-social-icon {
+    color: #9ca3af;
+    transition-property: color;
+    transition-duration: 300ms;
+}
+
+.nube-social-icon:hover {
+    color: #ffffff;
+}
+
+.nube-footer-bottom {
+    border-top: 1px solid #374151;
+    padding-top: 2rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #9ca3af;
+}
+
