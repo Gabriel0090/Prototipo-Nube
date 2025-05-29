@@ -31,3 +31,8 @@ form.addEventListener('submit', (e) => {
     alert('Preencha os campos corretamente.');
   }
 });
+
+
+document.getElementById('btnFinalizar').addEventListener('click', () => {
+  window.location.href = 'index.html';
+});
