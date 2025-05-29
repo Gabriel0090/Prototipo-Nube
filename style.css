@@ -1,7 +1,9 @@
 body {
     font-family: 'Inter', sans-serif;
     background-color: #f8fafc;
+    /* Azul acinzentado muito claro */
     color: #374151;
+    /* Cinza escuro */
 }
 
 ::-webkit-scrollbar {
@@ -11,18 +13,22 @@ body {
 
 ::-webkit-scrollbar-track {
     background: #e2e8f0;
+    /* Cinza claro */
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: #94a3b8;
+    /* Cinza médio */
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: #64748b;
+    /* Cinza mais escuro */
 }
 
+/* Estilos para o Modal de Autenticação (se você tiver um) */
 #auth-modal.show {
     opacity: 1;
     pointer-events: auto;
@@ -32,119 +38,180 @@ body {
     transform: scale(1);
 }
 
+/* Estilo para o link da página atualmente selecionada na navegação */
 .page-select {
     background-color: #1d4ed8;
+    /* Azul escuro */
     color: white;
     font-weight: 600;
+    /* semi-bold */
     border-radius: 9999px;
+    /* pill shape */
     padding: 0.25rem 1rem;
-    /* apenas um leve padding vertical */
+    /* padding vertical e horizontal */
     line-height: 1.5rem;
-    /* mesma altura dos outros links */
+    /* altura da linha para consistência */
     display: inline-block;
 }
 
+/* Container principal */
 .nube-container {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     padding-left: 1.5rem;
+    /* 24px */
     padding-right: 1.5rem;
+    /* 24px */
 }
 
-
-
-
+/* Cabeçalho */
 .nube-header {
     background-color: #ffffff;
+    /* Branco */
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    /* Sombra sutil */
     padding: 1rem 1.5rem;
+    /* padding vertical e horizontal */
     display: flex;
     justify-content: space-between;
+    /* Logo à esquerda, botões à direita */
     align-items: center;
     position: fixed;
+    /* Fixo no topo */
     width: 100%;
     z-index: 50;
+    /* Garante que fique acima de outros conteúdos */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-header {
         padding-left: 3rem;
+        /* 48px */
         padding-right: 3rem;
+        /* 48px */
     }
 }
 
 .nube-header-content-wrapper {
     display: flex;
     align-items: center;
-
+    flex-grow: 1;
+    /* Faz este wrapper tentar ocupar o espaço disponível */
+    min-width: 0;
+    /* Necessário em alguns casos para flex-grow funcionar corretamente com conteúdo interno que pode querer expandir demais */
 }
 
 .nube-logo {
-
-    /* Altura do logo */
     width: auto;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
+    /* Impede que o logo encolha */
 }
 
 .nube-logo img {
     max-height: 64px;
-    /* maior, sem quebrar layout */
+    /* Altura máxima do logo */
     width: auto;
     display: block;
 }
 
+/* Navegação Principal (Desktop) */
 .nube-main-nav {
     margin-left: 2.5rem;
+    /* 40px */
     display: none;
-    column-gap: 2rem;
+    /* Escondido em telas pequenas */
+    column-gap: 1rem;
+    /* Reduzido um pouco o gap para mais espaço, ajuste conforme necessário */
     padding: 0.5rem 1rem;
     font-weight: 500;
+    /* medium */
     white-space: nowrap;
+    /* Evita quebra de linha nos links */
     border-radius: 9999px;
-
+    /* pill shape */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint - Mostra em telas médias e maiores */
     .nube-main-nav {
         display: flex;
+        align-items: center;
+        /* Alinha itens verticalmente */
+        flex-grow: 1;
+        /* Faz o nav tentar ocupar o espaço disponível dentro do wrapper */
+        min-width: 0;
+        /* Para evitar overflow se os links forem muitos */
+    }
+
+    /* Alinha o botão de login (e subsequentes) à direita DENTRO do .nube-main-nav */
+    .nube-main-nav .nube-btn-login_header {
+        margin-left: auto;
+    }
+
+    /* Adiciona um espaçamento entre o botão de login e o de cadastro se estiverem juntos */
+    .nube-main-nav .nube-btn-login_header+.nube-btn-register_header {
+        margin-left: 1rem;
+        /* Ajuste este valor conforme o seu column-gap desejado */
     }
 }
 
 .nube-nav-link {
+    /* Estilo para links de navegação individuais */
     color: #4b5563;
+    /* Cinza */
     font-weight: 500;
+    /* medium */
     transition-property: color;
     transition-duration: 300ms;
+    padding: 0.25rem 0.5rem;
+    /* Adiciona um padding para melhor espaçamento entre links */
 }
 
 .nube-nav-link:hover {
     color: #2563eb;
+    /* Azul ao passar o mouse */
 }
 
+/* Contêiner para botões de autenticação no header (Login/Cadastro e Menu Mobile Toggle) */
 .nube-auth-buttons {
     display: flex;
     column-gap: 1rem;
+    /* Espaço entre os botões */
+    align-items: center;
+    /* Adicionado para alinhar o ícone do menu mobile com os botões */
+    flex-shrink: 0;
+    /* Impede que este contêiner de botões encolha */
 }
 
+/* Botão de Login (estilo geral e para header desktop) */
 .nube-btn-login {
     padding: 0.5rem 1.25rem;
     border-radius: 9999px;
+    /* pill shape */
     color: #2563eb;
+    /* Azul */
     border: 1px solid #2563eb;
+    /* Borda azul */
     transition-property: all;
     transition-duration: 300ms;
     font-weight: 500;
+    /* medium */
+    white-space: nowrap;
 }
 
 .nube-btn-login:hover {
     background-color: #eff6ff;
+    /* Azul bem claro ao passar o mouse */
 }
 
-
-
-.nube-btn-buttons_header {
+/* Botões de Login/Cadastro específicos para o .nube-main-nav (index.html) */
+.nube-btn-login_header {
     padding: 0.5rem 1.25rem;
     border-radius: 9999px;
     color: #2563eb;
@@ -152,67 +219,89 @@ body {
     transition-property: all;
     transition-duration: 300ms;
     font-weight: 500;
+    white-space: nowrap;
 }
 
-.nube-btn-buttons_header {
+.nube-btn-login_header:hover {
     background-color: #eff6ff;
-
 }
-
 
 .nube-btn-register_header {
     padding: 0.5rem 1.25rem;
     border-radius: 9999px;
     background-color: #2563eb;
+    /* Azul */
     color: #ffffff;
+    /* Branco */
     transition-property: all;
     transition-duration: 300ms;
     font-weight: 500;
+    /* medium */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Sombra */
+    white-space: nowrap;
 }
 
-.nube-btn-register_header :hover {
+.nube-btn-register_header:hover {
     background-color: #1d4ed8;
-
+    /* Azul mais escuro ao passar o mouse */
 }
 
 
+/* Botão de Cadastro (estilo geral e para header desktop) */
 .nube-btn-register {
     padding: 0.5rem 1.25rem;
     border-radius: 9999px;
+    /* pill shape */
     background-color: #2563eb;
+    /* Azul */
     color: #ffffff;
+    /* Branco */
     transition-property: all;
     transition-duration: 300ms;
     font-weight: 500;
+    /* medium */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Sombra */
+    white-space: nowrap;
 }
 
 .nube-btn-register:hover {
     background-color: #1d4ed8;
+    /* Azul mais escuro ao passar o mouse */
 }
 
+/* Botão de toggle para o Menu Mobile */
 .nube-mobile-menu-toggle {
     display: block;
+    /* Visível em telas pequenas */
     background: none;
     border: none;
     cursor: pointer;
     padding: 0.5rem;
     margin-left: 1rem;
+    /* Adiciona um pouco de espaço se houver botões de login/cadastro antes dele */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-mobile-menu-toggle {
         display: none;
+        /* Escondido em telas médias e maiores */
     }
 }
 
 .nube-mobile-menu-icon {
     width: 1.75rem;
+    /* 28px */
     height: 1.75rem;
+    /* 28px */
     color: #4b5563;
+    /* Cinza */
 }
 
+/* Overlay para o Menu Mobile */
 .nube-mobile-nav-overlay {
     position: fixed;
     top: 0;
@@ -220,31 +309,46 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    /* Preto semi-transparente */
     z-index: 40;
+    /* Abaixo do menu, acima do conteúdo */
     display: none;
+    /* Escondido por padrão */
 }
 
+/* Painel do Menu Mobile */
 .nube-mobile-nav {
     position: fixed;
     top: 0;
     right: -100%;
+    /* Começa fora da tela à direita */
     width: 80%;
+    /* Ocupa 80% da largura da tela */
     max-width: 300px;
+    /* Largura máxima */
     height: 100%;
     background-color: #ffffff;
+    /* Branco */
     z-index: 50;
+    /* Acima do overlay */
     padding: 1.5rem;
     box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+    /* Sombra à esquerda */
     transition: right 0.3s ease-in-out;
+    /* Animação de deslize */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     row-gap: 1.5rem;
+    /* Espaço entre os links */
     padding-top: 5rem;
+    /* Espaço no topo para o botão de fechar */
 }
 
 .nube-mobile-nav.is-open {
+    /* Classe para mostrar o menu */
     right: 0;
+    /* Desliza para dentro da tela */
 }
 
 .nube-mobile-nav-close-btn {
@@ -259,33 +363,45 @@ body {
 
 .nube-mobile-nav-close-icon {
     width: 1.75rem;
+    /* 28px */
     height: 1.75rem;
+    /* 28px */
     color: #4b5563;
+    /* Cinza */
 }
 
 .nube-mobile-nav-link {
     color: #111827;
+    /* Preto quase total */
     font-weight: 500;
+    /* medium */
     font-size: 1.125rem;
+    /* 18px */
     width: 100%;
     padding: 0.5rem 0;
     border-bottom: 1px solid #e5e7eb;
+    /* Linha divisória sutil */
 }
 
 .nube-mobile-nav-link:last-child {
     border-bottom: none;
+    /* Remove a borda do último link */
 }
 
 .nube-mobile-nav-link:hover {
     color: #2563eb;
+    /* Azul ao passar o mouse */
 }
 
+/* Botões de autenticação dentro do Menu Mobile */
 .nube-mobile-auth-buttons {
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
+    /* Espaço entre os botões */
     width: 100%;
     margin-top: 1rem;
+    /* Espaço acima dos botões */
 }
 
 .nube-mobile-auth-buttons .nube-btn-login,
@@ -294,528 +410,773 @@ body {
     text-align: center;
 }
 
+/* Seção Hero */
 .nube-hero-section {
     position: relative;
     background-image: linear-gradient(to right, #2563eb, #1e40af);
+    /* Gradiente azul */
     color: #ffffff;
+    /* Texto branco */
     padding: 8rem 0;
+    /* Padding generoso, ajustado para fixed header */
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding-top: 6rem;
+    /* Para elementos decorativos, se houver */
+    padding-top: 10rem;
+    /* Aumentado para compensar o header fixo */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-hero-section {
         padding-top: 12rem;
+        /* Mais padding no desktop */
         padding-bottom: 12rem;
-        padding-top: 8rem;
     }
 }
 
 .nube-hero-content {
     text-align: center;
     z-index: 10;
+    /* Acima de possíveis elementos de fundo */
     padding: 0 1rem;
+    /* Padding lateral pequeno em mobile */
 }
 
 .nube-hero-title {
     font-size: 2.25rem;
+    /* 36px */
     line-height: 1.25;
     margin-bottom: 1.5rem;
+    /* 24px */
     font-weight: 800;
+    /* extra-bold */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-hero-title {
         font-size: 3.75rem;
+        /* 60px */
     }
 }
 
 .nube-hero-subtitle {
     font-size: 1.125rem;
+    /* 18px */
     margin-bottom: 2.5rem;
+    /* 40px */
     max-width: 42rem;
+    /* Limita a largura do subtítulo */
     margin-left: auto;
     margin-right: auto;
     opacity: 0.9;
+    /* Leve transparência */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-hero-subtitle {
         font-size: 1.25rem;
+        /* 20px */
     }
 }
 
+/* Barra de Busca */
 .nube-search-bar {
     background-color: transparent;
+    /* Transparente no mobile (sobre o hero) */
     box-shadow: none;
     padding: 1rem;
     border-radius: 9999px;
+    /* pill shape */
     max-width: 48rem;
+    /* Largura máxima */
     margin-left: auto;
     margin-right: auto;
     display: flex;
     flex-direction: column;
+    /* Empilhado no mobile */
     row-gap: 1rem;
+    /* Espaço entre inputs no mobile */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-search-bar {
         flex-direction: row;
+        /* Lado a lado no desktop */
         row-gap: 0;
         column-gap: 1rem;
+        /* Espaço entre inputs no desktop */
         background-color: #ffffff;
+        /* Fundo branco no desktop */
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        /* Sombra */
     }
 }
 
 .nube-search-input {
     flex: 1;
+    /* Ocupa espaço disponível */
     padding: 0.75rem 1.25rem;
     border-radius: 9999px;
+    /* pill shape */
     border: 1px solid #d1d5db;
+    /* Borda cinza clara */
     outline: none;
     color: #374151;
+    /* Cor do texto do input */
 }
 
 .nube-search-input:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
     box-shadow: 0 0 0 2px #93c5fd;
+    /* Borda azul clara no foco (Tailwind focus ring) */
 }
 
 .nube-search-button {
     width: 100%;
+    /* Largura total no mobile */
     padding: 0.75rem 2rem;
     background-color: #2563eb;
+    /* Azul */
     color: #ffffff;
+    /* Branco */
     border-radius: 9999px;
+    /* pill shape */
     font-weight: 600;
+    /* semi-bold */
     transition-property: all;
     transition-duration: 300ms;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Sombra */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-search-button {
         width: auto;
+        /* Largura automática no desktop */
     }
 }
 
 .nube-search-button:hover {
     background-color: #1d4ed8;
+    /* Azul mais escuro ao passar o mouse */
 }
 
 .nube-search-mobile-hint {
+    /* Dica para mobile, se necessário */
     display: none;
+    /* Geralmente não precisa se o layout for intuitivo */
 }
 
-@media (min-width: 768px) {
-    .nube-search-mobile-hint {
-        display: none;
-    }
-}
-
+/* Seções de Conteúdo Genéricas */
 .nube-content-section {
     padding: 4rem 0;
+    /* Padding vertical, ajustado para fixed header */
+    padding-top: 6rem;
+    /* Compensação para o header fixo */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-content-section {
-        padding: 6rem 0;
+        padding-top: 8rem;
+        /* Mais padding no desktop */
+        padding-bottom: 6rem;
     }
 }
 
 .nube-section-title {
     font-size: 1.875rem;
+    /* 30px */
     font-weight: 700;
+    /* bold */
     color: #111827;
+    /* Preto quase total */
     margin-bottom: 3rem;
+    /* 48px */
     text-align: center;
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-section-title {
         font-size: 2.25rem;
+        /* 36px */
     }
 }
 
 .nube-section-white {
     background-color: #f8fafc;
-}
-
-.nube-section-gray {
-    background-color: #f9fafb;
+    /* Cor de fundo padrão das seções */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-section-white {
+        /* Pode ser branco puro no desktop se preferir */
         background-color: #ffffff;
     }
 }
 
+.nube-section-gray {
+    /* Para variação de fundo de seção */
+    background-color: #f9fafb;
+    /* Cinza muito claro */
+}
+
+
+/* Botões Primários e Secundários */
 .nube-btn-primary {
     padding: 0.75rem 2rem;
     background-color: #2563eb;
+    /* Azul */
     color: #ffffff;
+    /* Branco */
     border-radius: 9999px;
+    /* pill shape */
     font-weight: 600;
+    /* semi-bold */
     transition-property: all;
     transition-duration: 300ms;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Sombra */
 }
 
 .nube-btn-primary:hover {
     background-color: #1d4ed8;
+    /* Azul mais escuro */
 }
 
 .nube-btn-secondary {
     padding: 0.75rem 1.5rem;
     border: 1px solid #9ca3af;
+    /* Borda cinza */
     color: #374151;
+    /* Texto cinza escuro */
     border-radius: 9999px;
+    /* pill shape */
     font-weight: 600;
+    /* semi-bold */
     transition-property: all;
     transition-duration: 300ms;
 }
 
 .nube-btn-secondary:hover {
     background-color: #f3f4f6;
+    /* Cinza bem claro ao passar o mouse */
 }
 
 .nube-btn-details {
+    /* Botão menor para "Ver Detalhes" em cards */
     padding: 0.5rem 1rem;
     background-color: #2563eb;
+    /* Azul */
     color: #ffffff;
+    /* Branco */
     border-radius: 9999px;
+    /* pill shape */
     font-size: 0.875rem;
+    /* 14px */
     transition-property: all;
     transition-duration: 300ms;
 }
 
 .nube-btn-details:hover {
     background-color: #1d4ed8;
+    /* Azul mais escuro */
 }
 
 .nube-centered-button-wrapper {
+    /* Para centralizar um botão */
     text-align: center;
     margin-top: 3rem;
+    /* 48px */
 }
 
+/* Grid para "Como Funciona" */
 .nube-how-it-works-grid {
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
+    /* Uma coluna no mobile */
     gap: 2.5rem;
+    /* 40px */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-how-it-works-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+        /* Três colunas no desktop */
     }
 }
 
 .nube-step-card {
+    /* Card para cada passo */
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 1.5rem;
     background-color: #eff6ff;
+    /* Azul muito claro */
     border-radius: 0.5rem;
+    /* 8px */
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    /* Sombra sutil */
     transition-property: box-shadow;
     transition-duration: 300ms;
 }
 
 .nube-step-card:hover {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Sombra maior no hover */
 }
 
 .nube-step-icon-wrapper {
+    /* Wrapper para o ícone do passo */
     background-color: #2563eb;
+    /* Azul */
     color: #ffffff;
+    /* Ícone branco */
     border-radius: 9999px;
+    /* Círculo */
     padding: 1rem;
     margin-bottom: 1rem;
 }
 
 .nube-step-title {
     font-size: 1.25rem;
+    /* 20px */
     font-weight: 600;
+    /* semi-bold */
     color: #111827;
+    /* Preto quase total */
     margin-bottom: 0.75rem;
 }
 
 .nube-step-description {
     color: #4b5563;
+    /* Cinza */
+    text-align: center;
 }
 
+/* Grid para Cards de Vagas/Recursos */
 .nube-card-grid {
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
+    /* Uma coluna no mobile */
     gap: 2rem;
+    /* 32px */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-card-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* Duas colunas em tablets */
     }
 }
 
 @media (min-width: 1024px) {
+
+    /* lg breakpoint */
     .nube-card-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+        /* Três colunas em desktops */
     }
 }
 
+/* Card de Vaga */
 .nube-vaga-card {
     background-color: #ffffff;
+    /* Branco */
     padding: 1.5rem;
     border-radius: 0.5rem;
+    /* 8px */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Sombra */
     border: 1px solid #e5e7eb;
+    /* Borda cinza clara */
     transition-property: box-shadow;
     transition-duration: 300ms;
 }
 
 .nube-vaga-card:hover {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    /* Sombra maior no hover */
 }
 
 .nube-vaga-title {
     font-size: 1.25rem;
+    /* 20px */
     font-weight: 600;
+    /* semi-bold */
     color: #111827;
+    /* Preto quase total */
     margin-bottom: 0.5rem;
 }
 
 .nube-vaga-empresa {
     color: #2563eb;
+    /* Azul */
     font-weight: 500;
+    /* medium */
     margin-bottom: 0.25rem;
 }
 
 .nube-vaga-location {
     color: #4b5563;
+    /* Cinza */
     font-size: 0.875rem;
+    /* 14px */
     margin-bottom: 1rem;
 }
 
 .nube-vaga-details-list {
+    /* Lista de detalhes da vaga (bolsa, carga horária) */
     color: #374151;
+    /* Cinza escuro */
     font-size: 0.875rem;
+    /* 14px */
     list-style-type: disc;
+    /* Marcadores de bolinha */
     padding-left: 1.25rem;
+    /* Indentação da lista */
     margin-bottom: 1rem;
 }
 
 .nube-vaga-footer-meta {
+    /* Rodapé do card de vaga (botão e data) */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 1rem;
+    /* Adicionado para dar espaço acima */
 }
 
 .nube-vaga-date-posted {
     font-size: 0.75rem;
+    /* 12px */
     color: #6b7280;
+    /* Cinza médio */
 }
 
+/* Card de Candidatura */
 .nube-candidatura-card {
     background-color: #ffffff;
+    /* Branco */
     padding: 1.5rem;
     border-radius: 0.5rem;
+    /* 8px */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Sombra */
     border: 1px solid #e5e7eb;
+    /* Borda cinza clara */
 }
 
 .nube-status-analise {
     font-weight: 700;
+    /* bold */
     color: #d97706;
+    /* Amarelo/Laranja escuro (Tailwind amber-600) */
 }
 
 .nube-status-visualizado {
     font-weight: 700;
+    /* bold */
     color: #16a34a;
+    /* Verde (Tailwind green-600) */
 }
 
 .nube-status-encerrado {
     font-weight: 700;
+    /* bold */
     color: #dc2626;
+    /* Vermelho (Tailwind red-600) */
 }
 
+/* Card de Perfil */
 .nube-profile-card {
     max-width: 48rem;
+    /* Largura máxima */
     margin-left: auto;
     margin-right: auto;
     background-color: #f9fafb;
+    /* Cinza muito claro */
     padding: 2rem;
     border-radius: 0.5rem;
+    /* 8px */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Sombra */
     border: 1px solid #e5e7eb;
+    /* Borda cinza clara */
 }
 
 .nube-profile-header {
     display: flex;
     flex-direction: column;
+    /* Empilhado no mobile */
     align-items: center;
     row-gap: 1rem;
     margin-bottom: 2rem;
+    text-align: center;
+    /* Centraliza texto no mobile */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-profile-header {
         flex-direction: row;
+        /* Lado a lado no desktop */
         align-items: flex-start;
+        /* Alinha itens no topo */
         text-align: left;
+        /* Alinha texto à esquerda no desktop */
     }
 }
 
 .nube-profile-avatar {
     width: 5rem;
+    /* 80px */
     height: 5rem;
+    /* 80px */
     border-radius: 9999px;
+    /* Círculo */
     background-color: #bfdbfe;
+    /* Azul claro */
     color: #1e40af;
+    /* Azul escuro (para iniciais) */
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.875rem;
+    /* 30px */
     font-weight: 600;
+    /* semi-bold */
     margin-bottom: 1rem;
+    /* Apenas no mobile */
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-profile-avatar {
         margin-bottom: 0;
         margin-right: 1.5rem;
+        /* Espaço à direita do avatar */
     }
 }
 
 .nube-profile-info h3 {
     font-size: 1.5rem;
+    /* 24px */
     font-weight: 600;
+    /* semi-bold */
     color: #111827;
+    /* Preto quase total */
     margin-bottom: 0.25rem;
 }
 
 .nube-profile-info p {
     color: #4b5563;
+    /* Cinza */
     margin-bottom: 0.25rem;
 }
 
 .nube-text-sm {
+    /* Classe utilitária para texto pequeno */
     font-size: 0.875rem;
+    /* 14px */
 }
 
 .nube-profile-section-block {
+    /* Bloco para seções do perfil (Resumo, Formação, etc.) */
     margin-bottom: 2rem;
     padding: 1.5rem;
     background-color: #ffffff;
+    /* Fundo branco para destacar */
     border-radius: 0.5rem;
+    /* 8px */
     border: 1px solid #e5e7eb;
+    /* Borda cinza clara */
 }
 
 .nube-profile-section-title {
     font-size: 1.125rem;
+    /* 18px */
     font-weight: 600;
+    /* semi-bold */
     color: #111827;
+    /* Preto quase total */
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
+    /* Alinha ícone com texto */
 }
 
 .nube-profile-text-content {
     color: #374151;
+    /* Cinza escuro */
     line-height: 1.625;
+    /* Espaçamento entre linhas */
 }
 
 .nube-profile-list {
     color: #374151;
+    /* Cinza escuro */
     list-style-type: none;
+    /* Remove marcadores padrão */
     padding-left: 0;
 }
 
 .nube-profile-list li {
     margin-bottom: 0.5rem;
+    padding-left: 1.25rem;
+    /* Adiciona indentação personalizada */
+    position: relative;
 }
 
+.nube-profile-list li::before {
+    /* Adiciona um marcador personalizado (opcional) */
+    content: "•";
+    color: #2563eb;
+    /* Azul */
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+    position: absolute;
+    left: 0;
+}
+
+
 .nube-skills-wrapper {
+    /* Wrapper para tags de habilidade */
     display: flex;
     flex-wrap: wrap;
+    /* Permite que as tags quebrem linha */
     gap: 0.75rem;
+    /* Espaço entre as tags */
 }
 
 .nube-skill-tag {
     background-color: #dbeafe;
+    /* Azul bem claro */
     color: #1e40af;
+    /* Azul escuro */
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
+    /* pill shape */
     font-size: 0.875rem;
+    /* 14px */
     font-weight: 500;
+    /* medium */
 }
 
 .nube-profile-actions {
+    /* Contêiner para botões de ação no perfil */
     margin-top: 2rem;
     text-align: center;
+    /* Centraliza no mobile */
 }
 
 .nube-profile-action-button-group {
     display: flex;
     flex-direction: column;
+    /* Empilhado no mobile */
     gap: 1rem;
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-profile-action-button-group {
         flex-direction: row;
+        /* Lado a lado no desktop */
         justify-content: center;
+        /* Centraliza o grupo de botões */
     }
 }
 
+/* Rodapé */
 .nube-footer {
     background-color: #1f2937;
+    /* Cinza bem escuro (Tailwind gray-800) */
     color: #d1d5db;
+    /* Cinza claro (Tailwind gray-300) */
     padding: 4rem 0 2rem;
+    /* Padding vertical */
 }
 
 .nube-footer-grid {
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
+    /* Uma coluna no mobile */
     gap: 2.5rem;
+    /* 40px */
     margin-bottom: 3rem;
 }
 
 @media (min-width: 768px) {
+
+    /* md breakpoint */
     .nube-footer-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* Duas colunas em tablets */
     }
 }
 
 @media (min-width: 1024px) {
+
+    /* lg breakpoint */
     .nube-footer-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr));
+        /* Quatro colunas em desktops */
     }
 }
 
 .nube-footer-logo {
     font-size: 1.5rem;
+    /* 24px */
     font-weight: 700;
+    /* bold */
     color: #ffffff;
+    /* Branco */
     margin-bottom: 1rem;
     display: inline-block;
 }
 
 .nube-footer-text {
     font-size: 0.875rem;
+    /* 14px */
     line-height: 1.625;
     margin-bottom: 1rem;
 }
 
 .nube-footer-title {
     font-size: 1.125rem;
+    /* 18px */
     font-weight: 600;
+    /* semi-bold */
     color: #ffffff;
+    /* Branco */
     margin-bottom: 1rem;
 }
 
@@ -830,15 +1191,18 @@ body {
 
 .nube-footer-links-list a {
     color: #d1d5db;
+    /* Cinza claro */
     transition-property: color;
     transition-duration: 300ms;
 }
 
 .nube-footer-links-list a:hover {
     color: #ffffff;
+    /* Branco ao passar o mouse */
 }
 
 .nube-social-links {
+    /* Links para redes sociais */
     display: flex;
     column-gap: 1rem;
     margin-top: 1rem;
@@ -846,18 +1210,24 @@ body {
 
 .nube-social-icon {
     color: #9ca3af;
+    /* Cinza (Tailwind gray-400) */
     transition-property: color;
     transition-duration: 300ms;
 }
 
 .nube-social-icon:hover {
     color: #ffffff;
+    /* Branco ao passar o mouse */
 }
 
 .nube-footer-bottom {
+    /* Texto de direitos autorais */
     border-top: 1px solid #374151;
+    /* Linha divisória cinza escura */
     padding-top: 2rem;
     text-align: center;
     font-size: 0.875rem;
+    /* 14px */
     color: #9ca3af;
+    /* Cinza (Tailwind gray-400) */
 }

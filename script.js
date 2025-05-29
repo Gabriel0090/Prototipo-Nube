@@ -3,29 +3,78 @@ const mobileNav = document.getElementById('nube-mobile-nav');
 const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
 const mobileMenuClose = document.getElementById('mobile-menu-close');
 
-// Lógica do Modal (existente no seu script) - MANTENHA ESTA PARTE COMO ESTÁ
-const modal = document.getElementById('auth-modal');
-const openButtons = document.querySelectorAll('.nube-btn-login_header, .nube-btn-register_header');
-const closeBtn = document.getElementById('close-auth-modal');
-const form = document.getElementById('register-form');
+// Função para fechar o menu mobile - declarada aqui para ser acessível globalmente no script
+let closeMenu = () => {
+  // Implementação será definida abaixo se os elementos do menu existirem
+};
 
-if (modal && closeBtn && form) { // Verifica se os elementos do modal existem
-  openButtons.forEach(btn => {
+if (mobileMenuToggle && mobileNav && mobileNavOverlay && mobileMenuClose) {
+  mobileMenuToggle.addEventListener('click', () => {
+    mobileNav.classList.add('is-open');
+    mobileNavOverlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    mobileNav.setAttribute('aria-hidden', 'false');
+    if (mobileMenuClose) { // Adiciona verificação
+      mobileMenuClose.focus();
+    }
+  });
+
+  // Define a função closeMenu com a lógica correta
+  closeMenu = () => {
+    if (mobileNav && mobileNavOverlay && mobileMenuToggle) { // Adiciona verificação
+      mobileNav.classList.remove('is-open');
+      mobileNavOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+      mobileNav.setAttribute('aria-hidden', 'true');
+      // Devolve o foco ao botão que abriu o menu,
+      // apenas se o foco estava dentro do menu ou no botão de fechar.
+      if (document.activeElement === mobileMenuClose || (mobileNav && mobileNav.contains(document.activeElement))) {
+        mobileMenuToggle.focus();
+      }
+    }
+  };
+
+  mobileMenuClose.addEventListener('click', closeMenu);
+  mobileNavOverlay.addEventListener('click', closeMenu);
+}
+
+// Lógica do Modal
+const modal = document.getElementById('auth-modal');
+// ATUALIZAR ESTE SELETOR para incluir todas as variações de botões de login/cadastro
+const openAuthModalButtons = document.querySelectorAll(
+  '.nube-btn-login, .nube-btn-register, .nube-btn-login_header, .nube-btn-register_header'
+);
+const closeAuthModalBtn = document.getElementById('close-auth-modal');
+const authForm = document.getElementById('register-form');
+
+if (modal && closeAuthModalBtn && authForm) {
+  openAuthModalButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      if (modal) { // Checagem adicional dentro do loop
-        modal.classList.remove('hidden');
+      modal.classList.remove('hidden');
+
+      // Se o menu mobile estiver aberto, feche-o
+      if (mobileNav && mobileNav.classList.contains('is-open') && typeof closeMenu === 'function') {
+        closeMenu();
+      }
+
+      // Opcional: mover foco para dentro do modal
+      const firstFocusableElementInModal = modal.querySelector('input, button');
+      if (firstFocusableElementInModal) {
+        firstFocusableElementInModal.focus();
       }
     });
   });
 
-  closeBtn.addEventListener('click', () => {
+  closeAuthModalBtn.addEventListener('click', () => {
     modal.classList.add('hidden');
+    // Opcional: Devolver o foco para o botão que originalmente abriu o modal
+    // Isso requer rastrear qual botão abriu o modal.
   });
 
-  form.addEventListener('submit', (e) => {
+  authForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = form.email.value.trim();
-    const senha = form.senha.value;
+    const email = authForm.email.value.trim();
+    const senha = authForm.senha.value;
     if (email && senha) {
       window.location.href = 'cadastro.html';
     } else {
@@ -33,28 +82,8 @@ if (modal && closeBtn && form) { // Verifica se os elementos do modal existem
     }
   });
 }
-// Fim da lógica do Modal
 
-// --- INÍCIO DA LÓGICA CORRIGIDA DO MENU MOBILE ---
-if (mobileMenuToggle && mobileNav && mobileNavOverlay && mobileMenuClose) {
-  mobileMenuToggle.addEventListener('click', () => {
-    mobileNav.classList.add('is-open'); // Usa a classe .is-open para mostrar o menu
-    mobileNavOverlay.style.display = 'block'; // Mostra o overlay
-    document.body.style.overflow = 'hidden'; // Impede o scroll da página ao fundo
-  });
-
-  const closeMenu = () => {
-    mobileNav.classList.remove('is-open'); // Usa a classe .is-open para esconder o menu
-    mobileNavOverlay.style.display = 'none'; // Esconde o overlay
-    document.body.style.overflow = ''; // Restaura o scroll da página
-  };
-
-  mobileMenuClose.addEventListener('click', closeMenu);
-  mobileNavOverlay.addEventListener('click', closeMenu); // Clicar no overlay também fecha
-}
-// --- FIM DA LÓGICA CORRIGIDA DO MENU MOBILE ---
-
-// Lógica do btnFinalizar (existente no seu script) - MANTENHA SE NECESSÁRIO, MAS COM VERIFICAÇÃO
+// Lógica do btnFinalizar (se ainda for usada globalmente)
 const btnFinalizar = document.getElementById('btnFinalizar');
 if (btnFinalizar) {
   btnFinalizar.addEventListener('click', () => {
