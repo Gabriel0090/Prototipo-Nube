@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Nube Fácil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="cadastro.css">
+</head>
+
+<body class="bg-gray-100">
+    <div class="max-w-4xl mx-auto p-8 bg-white mt-10 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold mb-6 text-center">Cadastro de Estudante</h1>
+        <form action="" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Informações Pessoais -->
+            <div>
+                <label class="block font-medium">Nome completo</label>
+                <input type="text" name="nome" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Data de nascimento</label>
+                <input type="date" name="data_nascimento" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Gênero</label>
+                <select name="genero" class="w-full border p-2 rounded" required>
+                    <option value="">Selecione</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                    <option value="outro">Outro</option>
+                    <option value="nao_informar">Prefiro não informar</option>
+                </select>
+            </div>
+            <div>
+                <label class="block font-medium">CPF</label>
+                <input type="text" name="cpf" class="w-full border p-2 rounded" required>
+            </div>
+
+            <!-- Contato -->
+            <div>
+                <label class="block font-medium">E-mail</label>
+                <input type="email" name="email" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Telefone</label>
+                <input type="tel" name="telefone" class="w-full border p-2 rounded" required>
+            </div>
+
+            <!-- Endereço -->
+            <div>
+                <label class="block font-medium">CEP</label>
+                <input type="text" name="cep" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Endereço</label>
+                <input type="text" name="endereco" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Número</label>
+                <input type="text" name="numero" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Complemento</label>
+                <input type="text" name="complemento" class="w-full border p-2 rounded">
+            </div>
+            <div>
+                <label class="block font-medium">Cidade</label>
+                <input type="text" name="cidade" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Estado</label>
+                <select name="estado" class="w-full border p-2 rounded" required>
+                    <option value="">Selecione</option>
+                    <option value="SP">SP</option>
+                    <option value="RJ">RJ</option>
+                    <option value="MG">MG</option>
+                    <option value="RS">RS</option>
+                    <!-- Adicione os demais estados -->
+                </select>
+            </div>
+
+            <!-- Escolaridade -->
+            <div class="md:col-span-2">
+                <label class="block font-medium">Nível de Escolaridade</label>
+                <select name="escolaridade" class="w-full border p-2 rounded" required>
+                    <option value="">Selecione</option>
+                    <option value="medio">Ensino Médio</option>
+                    <option value="tecnico">Curso Técnico</option>
+                    <option value="superior">Ensino Superior</option>
+                </select>
+            </div>
+            <div>
+                <label class="block font-medium">Instituição de Ensino</label>
+                <input type="text" name="instituicao" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Curso</label>
+                <input type="text" name="curso" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Período</label>
+                <input type="text" name="periodo" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Turno</label>
+                <select name="turno" class="w-full border p-2 rounded" required>
+                    <option value="">Selecione</option>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="noite">Noite</option>
+                </select>
+            </div>
+
+            <!-- Senha -->
+            <div>
+                <label class="block font-medium">Senha</label>
+                <input type="password" name="senha" class="w-full border p-2 rounded" required>
+            </div>
+            <div>
+                <label class="block font-medium">Confirmar Senha</label>
+                <input type="password" name="confirmar_senha" class="w-full border p-2 rounded" required>
+            </div>
+
+            <!-- Botão -->
+            <div class="md:col-span-2">
+                <button type="submit" id="btnFinalizar"
+                    Class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Finalizar
+                    Cadastro</button>
+            </div>
+        </form>
+    </div>
+    <script>document.getElementById('btnFinalizar').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

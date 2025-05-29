@@ -23,15 +23,27 @@ body {
     background: #64748b;
 }
 
+#auth-modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#auth-content.show {
+    transform: scale(1);
+}
+
 .page-select {
     background-color: #1d4ed8;
     color: white;
     font-weight: 600;
     border-radius: 9999px;
-    padding: 0.25rem 1rem; /* apenas um leve padding vertical */
-    line-height: 1.5rem; /* mesma altura dos outros links */
+    padding: 0.25rem 1rem;
+    /* apenas um leve padding vertical */
+    line-height: 1.5rem;
+    /* mesma altura dos outros links */
     display: inline-block;
 }
+
 .nube-container {
     max-width: 100%;
     margin-left: auto;
@@ -39,6 +51,9 @@ body {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 }
+
+
+
 
 .nube-header {
     background-color: #ffffff;
@@ -62,19 +77,22 @@ body {
 .nube-header-content-wrapper {
     display: flex;
     align-items: center;
-    
+
 }
 
 .nube-logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #2563eb;
-    transition-property: color;
-    transition-duration: 300ms;
+
+    /* Altura do logo */
+    width: auto;
+    display: flex;
+    align-items: center;
 }
 
-.nube-logo:hover {
-    color: #1d4ed8;
+.nube-logo img {
+    max-height: 64px;
+    /* maior, sem quebrar layout */
+    width: auto;
+    display: block;
 }
 
 .nube-main-nav {
@@ -85,6 +103,7 @@ body {
     font-weight: 500;
     white-space: nowrap;
     border-radius: 9999px;
+
 }
 
 @media (min-width: 768px) {
@@ -122,6 +141,41 @@ body {
 .nube-btn-login:hover {
     background-color: #eff6ff;
 }
+
+
+
+.nube-btn-buttons_header {
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    color: #2563eb;
+    border: 1px solid #2563eb;
+    transition-property: all;
+    transition-duration: 300ms;
+    font-weight: 500;
+}
+
+.nube-btn-buttons_header {
+    background-color: #eff6ff;
+
+}
+
+
+.nube-btn-register_header {
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    background-color: #2563eb;
+    color: #ffffff;
+    transition-property: all;
+    transition-duration: 300ms;
+    font-weight: 500;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.nube-btn-register_header :hover {
+    background-color: #1d4ed8;
+
+}
+
 
 .nube-btn-register {
     padding: 0.5rem 1.25rem;
