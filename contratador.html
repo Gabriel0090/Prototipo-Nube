@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Vaga - Nube Fácil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="style.css" rel="stylesheet">
+    </head>
+
+<body>
+    <header class="nube-header">
+        <div class="nube-header-content-wrapper">
+            <a href="index.html" class="nube-logo"><img src="imagens/Adobe Express - file.png" alt="Logo Nube" /></a>
+            <nav class="nube-main-nav">
+                <a href="index.html">Início</a>
+                <a href="search.html">Buscar Vagas</a>
+                <a href="candidacy.html">Minhas Candidaturas</a>
+                <a href="profile.html">Meu Perfil</a>
+                <a href="resources.html">Recursos & Dicas</a>
+                <a href="contratador.html" class="page-select">Publicar Vaga</a>
+                </nav>
+        </div>
+        <div class="nube-auth-buttons">
+            <button class="nube-btn-login hidden md:block">Login</button>
+            <button class="nube-btn-register hidden md:block">Cadastre-se</button>
+            <button id="mobile-menu-toggle" class="nube-mobile-menu-toggle">
+                <svg class="nube-mobile-menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobile-nav-overlay" class="nube-mobile-nav-overlay"></div>
+    <nav id="nube-mobile-nav" class="nube-mobile-nav">
+        <button id="mobile-menu-close" class="nube-mobile-nav-close-btn">
+            <svg class="nube-mobile-nav-close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <a href="index.html" class="nube-mobile-nav-link">Início</a>
+        <a href="search.html" class="nube-mobile-nav-link">Buscar Vagas</a>
+        <a href="candidacy.html" class="nube-mobile-nav-link">Minhas Candidaturas</a>
+        <a href="profile.html" class="nube-mobile-nav-link">Meu Perfil</a>
+        <a href="resources.html" class="nube-mobile-nav-link">Recursos & Dicas</a>
+        <a href="contratador.html" class="nube-mobile-nav-link page-select">Publicar Vaga</a>
+        <div class="nube-mobile-auth-buttons">
+            </div>
+    </nav>
+
+    <section class="nube-content-section nube-section-white">
+        <div class="nube-container" style="max-width: 700px; margin-top: 5rem;">
+            <h2 class="nube-section-title">Publicar Nova Vaga</h2>
+            <form id="publishVacancyForm" class="bg-white p-8 rounded-lg shadow-lg space-y-6">
+                <div>
+                    <label for="vacancyTitle" class="block font-medium text-gray-700">Título da Vaga</label>
+                    <input type="text" id="vacancyTitle" name="vacancyTitle" class="w-full border p-2 rounded mt-1" required>
+                </div>
+                <div>
+                    <label for="companyName" class="block font-medium text-gray-700">Nome da Empresa</label>
+                    <input type="text" id="companyName" name="companyName" class="w-full border p-2 rounded mt-1" required>
+                </div>
+                <div>
+                    <label for="vacancyLocation" class="block font-medium text-gray-700">Localidade (Cidade, UF)</label>
+                    <input type="text" id="vacancyLocation" name="vacancyLocation" class="w-full border p-2 rounded mt-1" required>
+                </div>
+                <div>
+                    <label for="vacancySalary" class="block font-medium text-gray-700">Bolsa/Salário (Ex: R$ 1.500,00)</label>
+                    <input type="text" id="vacancySalary" name="vacancySalary" class="w-full border p-2 rounded mt-1">
+                </div>
+                <div>
+                    <label for="vacancyWorkload" class="block font-medium text-gray-700">Carga Horária (Ex: 30h semanais)</label>
+                    <input type="text" id="vacancyWorkload" name="vacancyWorkload" class="w-full border p-2 rounded mt-1">
+                </div>
+                <div>
+                    <label for="vacancyBenefits" class="block font-medium text-gray-700">Benefícios (separados por vírgula)</label>
+                    <input type="text" id="vacancyBenefits" name="vacancyBenefits" class="w-full border p-2 rounded mt-1">
+                </div>
+                 <div>
+                    <label for="vacancyDescription" class="block font-medium text-gray-700">Descrição Curta da Vaga</label>
+                    <textarea id="vacancyDescription" name="vacancyDescription" rows="3" class="w-full border p-2 rounded mt-1"></textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded hover:bg-blue-700">
+                        Publicar Vaga
+                    </button>
+                </div>
+                <div id="publishMessage" class="mt-4 text-center"></div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="nube-footer">
+        </footer>
+
+    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        </div>
+
+    <script src="script.js"></script>
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('cadastroForm');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Validação básica (adicione mais conforme necessário)
+            const nome = form.nome.value.trim();
+            const email = form.email.value.trim();
+            const senha = form.senha.value;
+            const confirmarSenha = form.confirmar_senha.value;
+
+            if (!nome || !email || !senha || !confirmarSenha) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            if (senha !== confirmarSenha) {
+                alert('As senhas não coincidem.');
+                return;
+            }
+
+            // Armazenar dados do usuário no localStorage
+            // Em um aplicativo real, isso seria uma chamada de API para um backend.
+            // Para vários usuários, gerencie um array de usuários.
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Verificar se o e-mail já existe
+            if (users.some(user => user.email === email)) {
+                alert('Este e-mail já está cadastrado. Tente fazer login.');
+                // Opcionalmente redirecionar para o login ou limpar formulário
+                return;
+            }
+
+            const newUser = {
+                nomeCompleto: nome,
+                dataNascimento: form.data_nascimento.value,
+                genero: form.genero.value,
+                cpf: form.cpf.value,
+                email: email,
+                telefone: form.telefone.value,
+                cep: form.cep.value,
+                endereco: form.endereco.value,
+                numero: form.numero.value,
+                complemento: form.complemento.value,
+                cidade: form.cidade.value,
+                estado: form.estado.value,
+                escolaridade: form.escolaridade.value,
+                instituicao: form.instituicao.value,
+                curso: form.curso.value,
+                periodo: form.periodo.value,
+                turno: form.turno.value,
+                password: senha // IMPORTANTE: NUNCA armazene senhas em texto simples em aplicativos reais! Faça hash delas no servidor.
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert('Cadastro finalizado com sucesso! Você será redirecionado para a página inicial.');
+            // Opcionalmente, faça login do usuário automaticamente
+            // localStorage.setItem('isLoggedIn', 'true');
+            // localStorage.setItem('loggedInUserEmail', email);
+
+            window.location.href = 'index.html'; // Ou página/modal de login
+        });
+    });
+</script>
+</body>
+</html>
