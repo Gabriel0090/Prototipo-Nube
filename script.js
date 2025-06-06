@@ -62,7 +62,7 @@ function initModalAuth() {
       }
 
       modal.querySelector("h2").textContent = "Login";
-      modal.querySelector("button[type=\"submit\"]").textContent = "Entrar";
+      modal.querySelector('button[type="submit"]').textContent = "Entrar";
       modal.classList.remove("hidden");
 
       const input = modal.querySelector("input, button");
@@ -119,9 +119,8 @@ function initSearchPageLogic() {
         </ul>
         <div class="nube-vaga-footer-meta">
           <button class="nube-btn-details">Ver Detalhes</button>
-          <span class="nube-vaga-date-posted">${
-            v.datePosted || "Data não informada"
-          }</span>
+          <span class="nube-vaga-date-posted">${v.datePosted || "Data não informada"
+      }</span>
         </div>
       </div>`;
     grid.insertAdjacentHTML("beforeend", html);
@@ -159,6 +158,7 @@ function initSearchPageLogic() {
 ------------------------------- */
 function initPublicarVaga() {
   const form = document.getElementById("publishVacancyForm");
+  const messageEl = document.getElementById("publishMessage"); // Pega o elemento da mensagem
   if (!form) return;
 
   form.addEventListener("submit", (e) => {
@@ -171,7 +171,7 @@ function initPublicarVaga() {
       location: form.vacancyLocation.value,
       salary: form.vacancySalary.value,
       workload: form.vacancyWorkload.value,
-      benefits: form.vacancyBenefits.value.split(","),
+      benefits: form.vacancyBenefits.value.split(",").map(b => b.trim()), // Limpa espaços em branco
       description: form.vacancyDescription.value,
       datePosted: new Date().toLocaleDateString("pt-BR"),
     };
@@ -179,10 +179,19 @@ function initPublicarVaga() {
     const vagas = JSON.parse(localStorage.getItem("vacancies")) || [];
     vagas.push(nova);
     localStorage.setItem("vacancies", JSON.stringify(vagas));
-    alert("Vaga publicada com sucesso!");
+
+    // Mostra uma mensagem de sucesso no HTML
+    if (messageEl) {
+      messageEl.textContent = "Vaga publicada com sucesso! Redirecionando...";
+      messageEl.style.color = "green";
+      messageEl.style.fontWeight = "bold";
+    }
+
     form.reset();
-    window.location.href = "search.html";
+
+    // Redireciona após um breve intervalo para o usuário ler a mensagem
+    setTimeout(() => {
+      window.location.href = "search.html";
+    }, 2000); // 2 segundos
   });
 }
-
-

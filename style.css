@@ -1235,13 +1235,15 @@ body {
 
 /* Mensagem para rotação de tela */
 .rotate-device-message {
-    display: none; /* Escondido por padrão */
+    display: none;
+    /* Escondido por padrão */
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #f8fafc; /* Mesma cor de fundo do seu site */
+    background-color: #f8fafc;
+    /* Mesma cor de fundo do seu site */
     color: #374151;
     z-index: 100;
     display: flex;
@@ -1253,12 +1255,57 @@ body {
 }
 
 @media screen and (orientation: landscape) and (max-width: 768px) {
+
     /* Em telas de celular na horizontal (paisagem) */
-    body > *:not(.rotate-device-message) {
-        display: none !important; /* Esconde todo o conteúdo, exceto a mensagem */
+    body>*:not(.rotate-device-message) {
+        display: none !important;
+        /* Esconde todo o conteúdo, exceto a mensagem */
     }
 
     .rotate-device-message {
-        display: flex !important; /* Mostra a mensagem */
+        display: flex !important;
+        /* Mostra a mensagem */
     }
+}
+
+/* === NOVOS ESTILOS ADICIONADOS === */
+
+/* Estilo para o botão de logout no header (desktop) */
+.nube-btn-logout-header {
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    border: 1px solid #9ca3af;
+    /* Borda cinza */
+    color: #374151;
+    /* Texto cinza escuro */
+    font-weight: 500;
+    margin-left: 1rem;
+    background-color: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.3s;
+}
+
+.nube-btn-logout-header:hover {
+    background-color: #f3f4f6;
+    /* Fundo cinza claro no hover */
+}
+
+/* Estilo para o botão de logout no menu mobile */
+.nube-btn-logout-mobile {
+    width: 100%;
+    margin-top: 0.5rem;
+    text-align: center;
+    padding: 0.75rem 1.25rem;
+    border-radius: 9999px;
+    border: 1px solid #9ca3af;
+    color: #374151;
+    font-weight: 500;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.nube-btn-logout-mobile:hover {
+    background-color: #f3f4f6;
 }
