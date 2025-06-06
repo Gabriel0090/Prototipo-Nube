@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste de Email Já Cadastrado - Nube Fácil</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .btn {
+      @apply px-4 py-2 rounded font-medium text-white transition-colors;
+    }
+    .btn-primary {
+      @apply bg-blue-600 hover:bg-blue-700;
+    }
+    .btn-danger {
+      @apply bg-red-600 hover:bg-red-700;
+    }
+    .btn-success {
+      @apply bg-green-600 hover:bg-green-700;
+    }
+    .btn-warning {
+      @apply bg-yellow-600 hover:bg-yellow-700;
+    }
+    .btn-info {
+      @apply bg-cyan-600 hover:bg-cyan-700;
+    }
+    .card {
+      @apply bg-white p-6 rounded-lg shadow-lg;
+    }
+    .card-title {
+      @apply text-xl font-bold mb-4;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8 text-center">Teste de Email Já Cadastrado - Nube Fácil</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Painel de Estado -->
+      <div class="card">
+        <h2 class="card-title">Estado Atual</h2>
+        <div id="auth-state" class="mb-4">Carregando...</div>
+        <div class="flex space-x-2">
+          <button id="btn-refresh" class="btn btn-info">Atualizar Estado</button>
+          <a href="index.html" class="btn btn-primary">Voltar ao Site</a>
+        </div>
+      </div>
+      
+      <!-- Painel de Ações -->
+      <div class="card">
+        <h2 class="card-title">Ações de Teste</h2>
+        <div class="space-y-2">
+          <button id="btn-create-user" class="btn btn-success w-full">Criar Usuário de Teste</button>
+          <button id="btn-logout" class="btn btn-warning w-full">Fazer Logout</button>
+          <button id="btn-clear" class="btn btn-danger w-full">Limpar Todos os Dados</button>
+        </div>
+      </div>
+      
+      <!-- Formulário de Cadastro -->
+      <div class="card md:col-span-2">
+        <h2 class="card-title">Simular Cadastro com Email Existente</h2>
+        <form id="test-register-form" class="space-y-4">
+          <div>
+            <label for="test-email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="test-email" value="teste@exemplo.com" class="w-full border p-2 rounded mt-1" required>
+            <p class="text-sm text-gray-500 mt-1">Use "teste@exemplo.com" para testar email já cadastrado</p>
+          </div>
+          <div>
+            <label for="test-password" class="block text-sm font-medium text-gray-700">Senha</label>
+            <input type="password" id="test-password" value="senha123" class="w-full border p-2 rounded mt-1" required>
+          </div>
+          <div>
+            <label for="test-name" class="block text-sm font-medium text-gray-700">Nome</label>
+            <input type="text" id="test-name" value="Usuário Teste" class="w-full border p-2 rounded mt-1" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">Simular Cadastro</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Modal de Login -->
+    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+      <div class="bg-white p-6 rounded-2xl w-full max-w-sm shadow-lg relative">
+        <button id="close-auth-modal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-xl">&times;</button>
+        <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
+        <form id="register-form" class="space-y-4">
+          <div>
+            <label for="email" class="block mb-1 text-sm font-medium">Email</label>
+            <input type="email" id="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg" />
+          </div>
+          <div>
+            <label for="senha" class="block mb-1 text-sm font-medium">Senha</label>
+            <input type="password" id="senha" name="senha" required class="w-full px-3 py-2 border border-gray-300 rounded-lg" />
+          </div>
+          <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Entrar</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Console de Log -->
+    <div class="card mt-6">
+      <h2 class="card-title">Console de Log</h2>
+      <div id="console-log" class="bg-gray-900 text-green-400 p-4 rounded font-mono text-sm h-64 overflow-y-auto">
+        > Sistema de teste iniciado.
+      </div>
+    </div>
+  </div>
+  
+  <script src="auth.js"></script>
+  <script>
+    // Função para adicionar mensagem ao console de log
+    function log(message) {
+      const consoleLog = document.getElementById('console-log');
+      const logEntry = document.createElement('div');
+      logEntry.textContent = `> ${message}`;
+      consoleLog.appendChild(logEntry);
+      consoleLog.scrollTop = consoleLog.scrollHeight;
+    }
+    
+    // Função para atualizar o estado de autenticação na interface
+    function updateAuthState() {
+      const authStateElement = document.getElementById('auth-state');
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const userEmail = localStorage.getItem('loggedInUserEmail');
+      
+      let stateHTML = '';
+      
+      if (isLoggedIn && userEmail) {
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const currentUser = users.find(user => user.email === userEmail);
+        
+        stateHTML = `
+          <div class="p-4 bg-green-100 border border-green-400 rounded mb-4">
+            <p class="font-bold text-green-800">Usuário Logado</p>
+            <p>Email: ${userEmail}</p>
+            ${currentUser ? `<p>Nome: ${currentUser.name}</p>` : ''}
+          </div>
+        `;
+      } else {
+        stateHTML = `
+          <div class="p-4 bg-yellow-100 border border-yellow-400 rounded mb-4">
+            <p class="font-bold text-yellow-800">Nenhum Usuário Logado</p>
+          </div>
+        `;
+      }
+      
+      authStateElement.innerHTML = stateHTML;
+    }
+    
+    // Função para criar um usuário de teste
+    function createTestUser() {
+      const testUser = {
+        email: 'teste@exemplo.com',
+        password: 'senha123',
+        name: 'Usuário de Teste',
+        birthDate: '2000-01-01',
+        gender: 'masculino',
+        cpf: '123.456.789-00',
+        phone: '(11) 98765-4321',
+        address: {
+          zipCode: '01234-567',
+          street: 'Rua de Teste',
+          number: '123',
+          complement: 'Apto 456',
+          city: 'São Paulo',
+          state: 'SP'
+        },
+        education: {
+          level: 'superior',
+          institution: 'Universidade de Teste',
+          course: 'Ciência da Computação',
+          period: '3º Semestre',
+          shift: 'noite'
+        }
+      };
+      
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const existingUserIndex = users.findIndex(u => u.email === testUser.email);
+      
+      if (existingUserIndex >= 0) {
+        users[existingUserIndex] = testUser;
+        log('Usuário de teste atualizado com sucesso!');
+      } else {
+        users.push(testUser);
+        log('Usuário de teste criado com sucesso!');
+      }
+      
+      localStorage.setItem('users', JSON.stringify(users));
+      updateAuthState();
+      
+      return testUser;
+    }
+    
+    // Função para simular logout
+    function logoutTestUser() {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('loggedInUserEmail');
+      
+      log('Logout do usuário de teste realizado com sucesso!');
+      updateAuthState();
+    }
+    
+    // Função para limpar todos os dados de autenticação
+    function clearAuthData() {
+      localStorage.removeItem('users');
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('loggedInUserEmail');
+      
+      log('Dados de autenticação limpos com sucesso!');
+      updateAuthState();
+    }
+    
+    // Configuração dos botões
+    document.addEventListener('DOMContentLoaded', () => {
+      // Atualizar estado inicial
+      updateAuthState();
+      
+      // Botão de atualizar estado
+      document.getElementById('btn-refresh').addEventListener('click', () => {
+        updateAuthState();
+        log('Estado atualizado.');
+      });
+      
+      // Botão de criar usuário de teste
+      document.getElementById('btn-create-user').addEventListener('click', () => {
+        createTestUser();
+        log('Usuário de teste criado: teste@exemplo.com / senha123');
+      });
+      
+      // Botão de logout
+      document.getElementById('btn-logout').addEventListener('click', () => {
+        logoutTestUser();
+        log('Logout realizado.');
+      });
+      
+      // Botão de limpar dados
+      document.getElementById('btn-clear').addEventListener('click', () => {
+        if (confirm('Tem certeza que deseja limpar todos os dados de autenticação?')) {
+          clearAuthData();
+          log('Todos os dados de autenticação foram limpos.');
+        }
+      });
+      
+      // Botão de fechar modal
+      document.getElementById('close-auth-modal').addEventListener('click', () => {
+        document.getElementById('auth-modal').classList.add('hidden');
+      });
+      
+      // Formulário de teste de cadastro
+      document.getElementById('test-register-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('test-email').value;
+        const password = document.getElementById('test-password').value;
+        const name = document.getElementById('test-name').value;
+        
+        log(`Simulando cadastro com email: ${email}`);
+        
+        // Verifica se o email já existe
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const existingUser = users.find(user => user.email === email);
+        
+        if (existingUser) {
+          log('Email já cadastrado. Exibindo confirmação...');
+          
+          // Simula o confirm do navegador
+          const confirmResult = confirm('Este email já está cadastrado. Deseja fazer login?');
+          log(`Usuário escolheu: ${confirmResult ? 'Sim, fazer login' : 'Não'}`);
+          
+          if (confirmResult) {
+            // Preenche o email no modal de login
+            const emailInput = document.getElementById('email');
+            if (emailInput) {
+              emailInput.value = email;
+              log('Email preenchido no formulário de login');
+            }
+            
+            // Exibe o modal de login
+            document.getElementById('auth-modal').classList.remove('hidden');
+            log('Modal de login exibido');
+          }
+        } else {
+          // Simula o cadastro
+          const newUser = {
+            email,
+            password,
+            name
+          };
+          
+          users.push(newUser);
+          localStorage.setItem('users', JSON.stringify(users));
+          
+          // Faz login automático
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('loggedInUserEmail', email);
+          
+          log('Cadastro realizado com sucesso! Usuário logado automaticamente.');
+          updateAuthState();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+

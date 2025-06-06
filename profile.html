@@ -12,7 +12,6 @@
 
 <body>
    
-
     <header class="nube-header">
         <div class="nube-header-content-wrapper">
             <a href="index.html" class="nube-logo"><img src="imagens/WhatsApp Image 2025-05-30 at 17.47.04.jpeg"
@@ -57,8 +56,7 @@
         <a href="profile.html" class="nube-mobile-nav-link">Meu Perfil</a>
         <a href="resources.html" class="nube-mobile-nav-link">Recursos & Dicas</a>
         <div class="nube-mobile-auth-buttons">
-            <button class="nube-btn-login">Login</button>
-            <button class="nube-btn-register">Cadastre-se</button>
+            <!-- Botões de login/logout serão inseridos pelo JavaScript -->
         </div>
     </nav>
 
@@ -67,11 +65,11 @@
             <h2 class="nube-section-title">Meu Perfil</h2>
             <div class="nube-profile-card">
                 <div class="nube-profile-header">
-                    <div class="nube-profile-avatar">AV</div>
+                    <div class="nube-profile-avatar" id="profile-avatar">--</div>
                     <div class="nube-profile-info">
-                        <h3>Olá, Ana Vitória!</h3>
-                        <p>Estudante de Engenharia de Software</p>
-                        <p class="nube-text-sm">São Paulo, SP</p>
+                        <h3 id="profile-name">Carregando...</h3>
+                        <p id="profile-email">Carregando...</p>
+                        <p class="nube-text-sm" id="profile-location">--</p>
                     </div>
                 </div>
 
@@ -83,12 +81,11 @@
                                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
                             </path>
                         </svg>
-                        Resumo do Perfil
+                        Informações do Perfil
                     </h4>
-                    <p class="nube-profile-text-content">
-                        Estudante dedicada de Engenharia de Software com paixão por desenvolvimento web e mobile.
-                        Buscando oportunidades de estágio para aplicar conhecimentos e crescer profissionalmente.
-                    </p>
+                    <div id="profile-details">
+                        Carregando informações do perfil...
+                    </div>
                 </div>
 
                 <div class="nube-profile-section-block">
@@ -101,36 +98,15 @@
                         </svg>
                         Formação Acadêmica
                     </h4>
-                    <ul class="nube-profile-list">
-                        <li>**Engenharia de Software** - Universidade XYZ (2023 - Atualmente)</li>
-                        <li>**Ensino Médio** - Escola ABC (2020 - 2022)</li>
-                    </ul>
-                </div>
-
-                <div class="nube-profile-section-block">
-                    <h4 class="nube-profile-section-title">
-                        <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 21h7a2 2 0 002-2V9a2 2 0 00-2-2h-7m-2 2H7a2 2 0 00-2 2v4a2 2 0 002 2h2m-2-4h8m-8 4h8m-1-9h.01M15 12a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z">
-                            </path>
-                        </svg>
-                        Habilidades
-                    </h4>
-                    <div class="nube-skills-wrapper">
-                        <span class="nube-skill-tag">HTML</span>
-                        <span class="nube-skill-tag">CSS (Tailwind)</span>
-                        <span class="nube-skill-tag">JavaScript</span>
-                        <span class="nube-skill-tag">Python</span>
-                        <span class="nube-skill-tag">Comunicação</span>
-                        <span class="nube-skill-tag">Trabalho em Equipe</span>
+                    <div id="profile-education">
+                        Carregando informações acadêmicas...
                     </div>
                 </div>
 
                 <div class="nube-profile-actions">
                     <div class="nube-profile-action-button-group">
-                        <button class="nube-btn-primary">Editar Perfil</button>
-                        <button class="nube-btn-secondary">Visualizar Currículo</button>
+                        <button class="nube-btn-primary" id="btn-edit-profile">Editar Perfil</button>
+                        <button class="nube-btn-secondary" id="btn-view-resume">Visualizar Currículo</button>
                     </div>
                 </div>
             </div>
@@ -244,11 +220,11 @@
             </div>
         </div>
     </div>
-    </div>
 
     <script src="script.js"></script>
-
-
+    <script src="auth.js"></script>
+    <script src="profile.js"></script>
 </body>
 
 </html>
+

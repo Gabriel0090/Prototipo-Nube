@@ -116,73 +116,8 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('cadastroForm');
-
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                // Validação básica (adicione mais conforme necessário)
-                const nome = form.nome.value.trim();
-                const email = form.email.value.trim();
-                const senha = form.senha.value;
-                const confirmarSenha = form.confirmar_senha.value;
-
-                if (!nome || !email || !senha || !confirmarSenha) {
-                    alert('Por favor, preencha todos os campos obrigatórios.');
-                    return;
-                }
-                if (senha !== confirmarSenha) {
-                    alert('As senhas não coincidem.');
-                    return;
-                }
-
-                // Armazenar dados do usuário no localStorage
-                // Em um aplicativo real, isso seria uma chamada de API para um backend.
-                // Para vários usuários, gerencie um array de usuários.
-                let users = JSON.parse(localStorage.getItem('users')) || [];
-
-                // Verificar se o e-mail já existe
-                if (users.some(user => user.email === email)) {
-                    alert('Este e-mail já está cadastrado. Tente fazer login.');
-                    // Opcionalmente redirecionar para o login ou limpar formulário
-                    return;
-                }
-
-                const newUser = {
-                    nomeCompleto: nome,
-                    dataNascimento: form.data_nascimento.value,
-                    genero: form.genero.value,
-                    cpf: form.cpf.value,
-                    email: email,
-                    telefone: form.telefone.value,
-                    cep: form.cep.value,
-                    endereco: form.endereco.value,
-                    numero: form.numero.value,
-                    complemento: form.complemento.value,
-                    cidade: form.cidade.value,
-                    estado: form.estado.value,
-                    escolaridade: form.escolaridade.value,
-                    instituicao: form.instituicao.value,
-                    curso: form.curso.value,
-                    periodo: form.periodo.value,
-                    turno: form.turno.value,
-                    password: senha // IMPORTANTE: NUNCA armazene senhas em texto simples em aplicativos reais! Faça hash delas no servidor.
-                };
-
-                users.push(newUser);
-                localStorage.setItem('users', JSON.stringify(users));
-
-                alert('Cadastro finalizado com sucesso! Você será redirecionado para a página inicial.');
-                // Opcionalmente, faça login do usuário automaticamente
-                // localStorage.setItem('isLoggedIn', 'true');
-                // localStorage.setItem('loggedInUserEmail', email);
-
-                window.location.href = 'index.html'; // Ou página/modal de login
-            });
-        });
-    </script>
+    <script src="auth.js"></script>
 </body>
 
 </html>
+
