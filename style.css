@@ -1231,3 +1231,33 @@ body {
     color: #9ca3af;
     /* Cinza (Tailwind gray-400) */
 }
+
+/* Mensagem para rotação de tela */
+.rotate-device-message {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f8fafc; /* Mesma cor de fundo do seu site */
+    color: #374151;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 2rem;
+}
+
+@media screen and (orientation: landscape) and (max-width: 768px) {
+    /* Em telas de celular na horizontal (paisagem) */
+    body > *:not(.rotate-device-message) {
+        display: none !important; /* Esconde todo o conteúdo, exceto a mensagem */
+    }
+
+    .rotate-device-message {
+        display: flex !important; /* Mostra a mensagem */
+    }
+}

@@ -7,9 +7,13 @@
     <title>Publicar Vaga - Nube Fácil</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="style.css" rel="stylesheet">
-    </head>
+</head>
 
 <body>
+    <div class="rotate-device-message">
+        <p>Por favor, utilize o dispositivo na vertical para uma melhor experiência.</p>
+    </div>
+
     <header class="nube-header">
         <div class="nube-header-content-wrapper">
             <a href="index.html" class="nube-logo"><img src="imagens/Adobe Express - file.png" alt="Logo Nube" /></a>
@@ -20,7 +24,7 @@
                 <a href="profile.html">Meu Perfil</a>
                 <a href="resources.html">Recursos & Dicas</a>
                 <a href="contratador.html" class="page-select">Publicar Vaga</a>
-                </nav>
+            </nav>
         </div>
         <div class="nube-auth-buttons">
             <button class="nube-btn-login hidden md:block">Login</button>
@@ -50,7 +54,7 @@
         <a href="resources.html" class="nube-mobile-nav-link">Recursos & Dicas</a>
         <a href="contratador.html" class="nube-mobile-nav-link page-select">Publicar Vaga</a>
         <div class="nube-mobile-auth-buttons">
-            </div>
+        </div>
     </nav>
 
     <section class="nube-content-section nube-section-white">
@@ -59,31 +63,41 @@
             <form id="publishVacancyForm" class="bg-white p-8 rounded-lg shadow-lg space-y-6">
                 <div>
                     <label for="vacancyTitle" class="block font-medium text-gray-700">Título da Vaga</label>
-                    <input type="text" id="vacancyTitle" name="vacancyTitle" class="w-full border p-2 rounded mt-1" required>
+                    <input type="text" id="vacancyTitle" name="vacancyTitle" class="w-full border p-2 rounded mt-1"
+                        required>
                 </div>
                 <div>
                     <label for="companyName" class="block font-medium text-gray-700">Nome da Empresa</label>
-                    <input type="text" id="companyName" name="companyName" class="w-full border p-2 rounded mt-1" required>
+                    <input type="text" id="companyName" name="companyName" class="w-full border p-2 rounded mt-1"
+                        required>
                 </div>
                 <div>
                     <label for="vacancyLocation" class="block font-medium text-gray-700">Localidade (Cidade, UF)</label>
-                    <input type="text" id="vacancyLocation" name="vacancyLocation" class="w-full border p-2 rounded mt-1" required>
+                    <input type="text" id="vacancyLocation" name="vacancyLocation"
+                        class="w-full border p-2 rounded mt-1" required>
                 </div>
                 <div>
-                    <label for="vacancySalary" class="block font-medium text-gray-700">Bolsa/Salário (Ex: R$ 1.500,00)</label>
+                    <label for="vacancySalary" class="block font-medium text-gray-700">Bolsa/Salário (Ex: R$
+                        1.500,00)</label>
                     <input type="text" id="vacancySalary" name="vacancySalary" class="w-full border p-2 rounded mt-1">
                 </div>
                 <div>
-                    <label for="vacancyWorkload" class="block font-medium text-gray-700">Carga Horária (Ex: 30h semanais)</label>
-                    <input type="text" id="vacancyWorkload" name="vacancyWorkload" class="w-full border p-2 rounded mt-1">
+                    <label for="vacancyWorkload" class="block font-medium text-gray-700">Carga Horária (Ex: 30h
+                        semanais)</label>
+                    <input type="text" id="vacancyWorkload" name="vacancyWorkload"
+                        class="w-full border p-2 rounded mt-1">
                 </div>
                 <div>
-                    <label for="vacancyBenefits" class="block font-medium text-gray-700">Benefícios (separados por vírgula)</label>
-                    <input type="text" id="vacancyBenefits" name="vacancyBenefits" class="w-full border p-2 rounded mt-1">
+                    <label for="vacancyBenefits" class="block font-medium text-gray-700">Benefícios (separados por
+                        vírgula)</label>
+                    <input type="text" id="vacancyBenefits" name="vacancyBenefits"
+                        class="w-full border p-2 rounded mt-1">
                 </div>
-                 <div>
-                    <label for="vacancyDescription" class="block font-medium text-gray-700">Descrição Curta da Vaga</label>
-                    <textarea id="vacancyDescription" name="vacancyDescription" rows="3" class="w-full border p-2 rounded mt-1"></textarea>
+                <div>
+                    <label for="vacancyDescription" class="block font-medium text-gray-700">Descrição Curta da
+                        Vaga</label>
+                    <textarea id="vacancyDescription" name="vacancyDescription" rows="3"
+                        class="w-full border p-2 rounded mt-1"></textarea>
                 </div>
                 <div class="md:col-span-2">
                     <button type="submit"
@@ -97,78 +111,79 @@
     </section>
 
     <footer class="nube-footer">
-        </footer>
+    </footer>
 
     <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
-        </div>
+    </div>
 
     <script src="script.js"></script>
-   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('cadastroForm');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('cadastroForm');
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-            // Validação básica (adicione mais conforme necessário)
-            const nome = form.nome.value.trim();
-            const email = form.email.value.trim();
-            const senha = form.senha.value;
-            const confirmarSenha = form.confirmar_senha.value;
+                // Validação básica (adicione mais conforme necessário)
+                const nome = form.nome.value.trim();
+                const email = form.email.value.trim();
+                const senha = form.senha.value;
+                const confirmarSenha = form.confirmar_senha.value;
 
-            if (!nome || !email || !senha || !confirmarSenha) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
-                return;
-            }
-            if (senha !== confirmarSenha) {
-                alert('As senhas não coincidem.');
-                return;
-            }
+                if (!nome || !email || !senha || !confirmarSenha) {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
+                if (senha !== confirmarSenha) {
+                    alert('As senhas não coincidem.');
+                    return;
+                }
 
-            // Armazenar dados do usuário no localStorage
-            // Em um aplicativo real, isso seria uma chamada de API para um backend.
-            // Para vários usuários, gerencie um array de usuários.
-            let users = JSON.parse(localStorage.getItem('users')) || [];
+                // Armazenar dados do usuário no localStorage
+                // Em um aplicativo real, isso seria uma chamada de API para um backend.
+                // Para vários usuários, gerencie um array de usuários.
+                let users = JSON.parse(localStorage.getItem('users')) || [];
 
-            // Verificar se o e-mail já existe
-            if (users.some(user => user.email === email)) {
-                alert('Este e-mail já está cadastrado. Tente fazer login.');
-                // Opcionalmente redirecionar para o login ou limpar formulário
-                return;
-            }
+                // Verificar se o e-mail já existe
+                if (users.some(user => user.email === email)) {
+                    alert('Este e-mail já está cadastrado. Tente fazer login.');
+                    // Opcionalmente redirecionar para o login ou limpar formulário
+                    return;
+                }
 
-            const newUser = {
-                nomeCompleto: nome,
-                dataNascimento: form.data_nascimento.value,
-                genero: form.genero.value,
-                cpf: form.cpf.value,
-                email: email,
-                telefone: form.telefone.value,
-                cep: form.cep.value,
-                endereco: form.endereco.value,
-                numero: form.numero.value,
-                complemento: form.complemento.value,
-                cidade: form.cidade.value,
-                estado: form.estado.value,
-                escolaridade: form.escolaridade.value,
-                instituicao: form.instituicao.value,
-                curso: form.curso.value,
-                periodo: form.periodo.value,
-                turno: form.turno.value,
-                password: senha // IMPORTANTE: NUNCA armazene senhas em texto simples em aplicativos reais! Faça hash delas no servidor.
-            };
+                const newUser = {
+                    nomeCompleto: nome,
+                    dataNascimento: form.data_nascimento.value,
+                    genero: form.genero.value,
+                    cpf: form.cpf.value,
+                    email: email,
+                    telefone: form.telefone.value,
+                    cep: form.cep.value,
+                    endereco: form.endereco.value,
+                    numero: form.numero.value,
+                    complemento: form.complemento.value,
+                    cidade: form.cidade.value,
+                    estado: form.estado.value,
+                    escolaridade: form.escolaridade.value,
+                    instituicao: form.instituicao.value,
+                    curso: form.curso.value,
+                    periodo: form.periodo.value,
+                    turno: form.turno.value,
+                    password: senha // IMPORTANTE: NUNCA armazene senhas em texto simples em aplicativos reais! Faça hash delas no servidor.
+                };
 
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
 
-            alert('Cadastro finalizado com sucesso! Você será redirecionado para a página inicial.');
-            // Opcionalmente, faça login do usuário automaticamente
-            // localStorage.setItem('isLoggedIn', 'true');
-            // localStorage.setItem('loggedInUserEmail', email);
+                alert('Cadastro finalizado com sucesso! Você será redirecionado para a página inicial.');
+                // Opcionalmente, faça login do usuário automaticamente
+                // localStorage.setItem('isLoggedIn', 'true');
+                // localStorage.setItem('loggedInUserEmail', email);
 
-            window.location.href = 'index.html'; // Ou página/modal de login
+                window.location.href = 'index.html'; // Ou página/modal de login
+            });
         });
-    });
-</script>
+    </script>
 </body>
+
 </html>
