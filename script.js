@@ -268,15 +268,15 @@ function removeLogoutButton(buttonSelector) {
 // Em script.js, dentro do ouvinte de evento DOMContentLoaded para a lógica de search.html:
 
 document.addEventListener('DOMContentLoaded', () => {
-    // ... (DOMContentLoaded existente para menu móvel, modal de autenticação etc.)
+  // ... (DOMContentLoaded existente para menu móvel, modal de autenticação etc.)
 
-    const isOnSearchPage = window.location.pathname.includes('search.html');
-    const isOnIndexPage = window.location.pathname.endsWith('/') || window.location.pathname.includes('index.html');
+  const isOnSearchPage = window.location.pathname.includes('search.html');
+  const isOnIndexPage = window.location.pathname.endsWith('/') || window.location.pathname.includes('index.html');
 
 
-    // --- Função para criar um HTML de card de vaga ---
-    function createVacancyCardHTML(vacancy) {
-        return `
+  // --- Função para criar um HTML de card de vaga ---
+  function createVacancyCardHTML(vacancy) {
+    return `
             <div class="nube-vaga-card" data-id="${vacancy.id || ''}">
                 <h3 class="nube-vaga-title">${vacancy.title}</h3>
                 <p class="nube-vaga-empresa">${vacancy.company}</p>
@@ -293,203 +293,244 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
+  }
+
+  let allVacancyCards = []; // Inicializar ou redefinir isso para ser dinâmico
+
+  // --- Funcionalidade de Pesquisa e Carregamento Dinâmico de Vagas (para search.html) ---
+  if (isOnSearchPage) {
+    const searchPageForm = document.querySelector('.nube-search-bar');
+    const vacancyCardGrid = document.querySelector('.nube-card-grid');
+
+    // Carregar cards estáticos inicialmente presentes no HTML
+    const staticVacancyCards = vacancyCardGrid ? Array.from(vacancyCardGrid.querySelectorAll('.nube-vaga-card')) : [];
+    allVacancyCards = [...staticVacancyCards]; // Começar com cards estáticos
+
+    // Carregar vagas do localStorage
+    const storedVacancies = JSON.parse(localStorage.getItem('vacancies')) || [];
+    if (vacancyCardGrid && storedVacancies.length > 0) {
+      storedVacancies.forEach(vacancy => {
+        // Evitar readicionar se o card já estiver no HTML estático (ex: verificando um ID se você tivesse um)
+        // Por simplicidade, apenas anexaremos. Se você tiver IDs, pode verificar.
+        const cardHTML = createVacancyCardHTML(vacancy);
+        vacancyCardGrid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+      // Repopular allVacancyCards para incluir os adicionados dinamicamente
+      allVacancyCards = Array.from(vacancyCardGrid.querySelectorAll('.nube-vaga-card'));
     }
 
-    let allVacancyCards = []; // Inicializar ou redefinir isso para ser dinâmico
 
-    // --- Funcionalidade de Pesquisa e Carregamento Dinâmico de Vagas (para search.html) ---
-    if (isOnSearchPage) {
-        const searchPageForm = document.querySelector('.nube-search-bar');
-        const vacancyCardGrid = document.querySelector('.nube-card-grid');
+    if (searchPageForm && vacancyCardGrid) {
+      const cargoInput = searchPageForm.querySelector('input[placeholder="Cargo, palavra-chave ou empresa"]');
+      const localidadeInput = searchPageForm.querySelector('input[placeholder="Localidade (Cidade/Estado)"]');
+      const searchButton = searchPageForm.querySelector('.nube-search-button');
 
-        // Carregar cards estáticos inicialmente presentes no HTML
-        const staticVacancyCards = vacancyCardGrid ? Array.from(vacancyCardGrid.querySelectorAll('.nube-vaga-card')) : [];
-        allVacancyCards = [...staticVacancyCards]; // Começar com cards estáticos
+      function filterVacancies() {
+        const cargoTerm = cargoInput.value.toLowerCase().trim();
+        const localidadeTerm = localidadeInput.value.toLowerCase().trim();
 
-        // Carregar vagas do localStorage
-        const storedVacancies = JSON.parse(localStorage.getItem('vacancies')) || [];
-        if (vacancyCardGrid && storedVacancies.length > 0) {
-            storedVacancies.forEach(vacancy => {
-                // Evitar readicionar se o card já estiver no HTML estático (ex: verificando um ID se você tivesse um)
-                // Por simplicidade, apenas anexaremos. Se você tiver IDs, pode verificar.
-                const cardHTML = createVacancyCardHTML(vacancy);
-                vacancyCardGrid.insertAdjacentHTML('beforeend', cardHTML);
-            });
-            // Repopular allVacancyCards para incluir os adicionados dinamicamente
-             allVacancyCards = Array.from(vacancyCardGrid.querySelectorAll('.nube-vaga-card'));
-        }
+        allVacancyCards.forEach(card => {
+          const title = card.querySelector('.nube-vaga-title')?.textContent.toLowerCase() || '';
+          const company = card.querySelector('.nube-vaga-empresa')?.textContent.toLowerCase() || '';
+          const location = card.querySelector('.nube-vaga-location')?.textContent.toLowerCase() || '';
+          const description = card.querySelector('p.text-sm.text-gray-600')?.textContent.toLowerCase() || '';
 
 
-        if (searchPageForm && vacancyCardGrid) {
-            const cargoInput = searchPageForm.querySelector('input[placeholder="Cargo, palavra-chave ou empresa"]');
-            const localidadeInput = searchPageForm.querySelector('input[placeholder="Localidade (Cidade/Estado)"]');
-            const searchButton = searchPageForm.querySelector('.nube-search-button');
+          const matchesCargo = !cargoTerm || title.includes(cargoTerm) || company.includes(cargoTerm) || description.includes(cargoTerm);
+          const matchesLocalidade = !localidadeTerm || location.includes(localidadeTerm);
 
-            function filterVacancies() {
-                const cargoTerm = cargoInput.value.toLowerCase().trim();
-                const localidadeTerm = localidadeInput.value.toLowerCase().trim();
-
-                allVacancyCards.forEach(card => {
-                    const title = card.querySelector('.nube-vaga-title')?.textContent.toLowerCase() || '';
-                    const company = card.querySelector('.nube-vaga-empresa')?.textContent.toLowerCase() || '';
-                    const location = card.querySelector('.nube-vaga-location')?.textContent.toLowerCase() || '';
-                    const description = card.querySelector('p.text-sm.text-gray-600')?.textContent.toLowerCase() || '';
-
-
-                    const matchesCargo = !cargoTerm || title.includes(cargoTerm) || company.includes(cargoTerm) || description.includes(cargoTerm);
-                    const matchesLocalidade = !localidadeTerm || location.includes(localidadeTerm);
-
-                    if (matchesCargo && matchesLocalidade) {
-                        card.style.display = '';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }
-
-            if (searchButton) {
-                searchButton.addEventListener('click', filterVacancies);
-            }
-             if (cargoInput) cargoInput.addEventListener('input', filterVacancies); // Filtrar enquanto o usuário digita
-             if (localidadeInput) localidadeInput.addEventListener('input', filterVacancies);
-
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const queryCargo = urlParams.get('cargo');
-            const queryLocalidade = urlParams.get('localidade');
-
-            if (cargoInput && queryCargo) {
-                cargoInput.value = queryCargo;
-            }
-            if (localidadeInput && queryLocalidade) {
-                localidadeInput.value = queryLocalidade;
-            }
-            if (queryCargo || queryLocalidade) {
-                filterVacancies();
-            }
-        }
-    }
-
-    // --- Barra de Pesquisa do Herói de Index.html ---
-    if (isOnIndexPage) {
-        const heroSearchBar = document.querySelector('.nube-hero-section .nube-search-bar');
-        if (heroSearchBar) {
-            const heroCargoInput = heroSearchBar.querySelector('input[placeholder="Cargo, palavra-chave ou empresa"]');
-            const heroLocalidadeInput = heroSearchBar.querySelector('input[placeholder="Localidade (Cidade/Estado)"]');
-            const heroSearchButton = heroSearchBar.querySelector('.nube-search-button');
-
-            if (heroSearchButton) {
-                heroSearchButton.addEventListener('click', () => {
-                    const cargo = heroCargoInput.value.trim();
-                    const localidade = heroLocalidadeInput.value.trim();
-                    window.location.href = `search.html?cargo=${encodeURIComponent(cargo)}&localidade=${encodeURIComponent(localidade)}`;
-                });
-            }
-        }
-    }
-
-    // Tratamento de Formulário de Login/Registro (se ainda estiver em cadastro.html ou similar)
-    const studentRegistrationForm = document.getElementById('cadastroForm');
-    if (studentRegistrationForm) {
-        studentRegistrationForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            // ... validação existente ...
-            const userEmail = this.email.value;
-            const userPassword = this.senha.value; // Supondo que 'senha' seja o nome do campo de senha
-
-            if (userEmail && userPassword) {
-                 // Armazenar usuário (simplificado: sobrescreve se o e-mail existir ou adiciona novo)
-                let users = JSON.parse(localStorage.getItem('users')) || [];
-                const existingUserIndex = users.findIndex(u => u.email === userEmail);
-                const newUser = {
-                    email: userEmail,
-                    password: userPassword, // Em um aplicativo real, FAÇA HASH DA SENHA!
-                    name: this.nome.value,
-                    // ... outros campos ...
-                };
-                if (existingUserIndex > -1) {
-                    users[existingUserIndex] = newUser; // Atualizar usuário existente
-                } else {
-                    users.push(newUser);
-                }
-                localStorage.setItem('users', JSON.stringify(users));
-
-                alert('Cadastro realizado com sucesso! Você será redirecionado para o login.');
-                // Simular auto-login ou redirecionar para a página/modal de login
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('loggedInUserEmail', userEmail);
-                updateLoginUI(); // Atualizar UI imediatamente
-                window.location.href = 'index.html'; // Redirecionar para a página inicial ou perfil
-            } else {
-                alert('Por favor, preencha e-mail e senha.');
-            }
+          if (matchesCargo && matchesLocalidade) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
         });
+      }
+
+      if (searchButton) {
+        searchButton.addEventListener('click', filterVacancies);
+      }
+      if (cargoInput) cargoInput.addEventListener('input', filterVacancies); // Filtrar enquanto o usuário digita
+      if (localidadeInput) localidadeInput.addEventListener('input', filterVacancies);
+
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryCargo = urlParams.get('cargo');
+      const queryLocalidade = urlParams.get('localidade');
+
+      if (cargoInput && queryCargo) {
+        cargoInput.value = queryCargo;
+      }
+      if (localidadeInput && queryLocalidade) {
+        localidadeInput.value = queryLocalidade;
+      }
+      if (queryCargo || queryLocalidade) {
+        filterVacancies();
+      }
     }
+  }
 
-    // Lógica do Modal de Autenticação
-    const authModal = document.getElementById('auth-modal');
-    const openAuthModalButtons = document.querySelectorAll(
-      '.nube-btn-login, .nube-btn-register, .nube-btn-login_header, .nube-btn-register_header'
-    );
-    const closeAuthModalBtn = document.getElementById('close-auth-modal');
-    const authForm = document.getElementById('register-form'); // Este é o formulário de login no modal
+  // --- Barra de Pesquisa do Herói de Index.html ---
+  if (isOnIndexPage) {
+    const heroSearchBar = document.querySelector('.nube-hero-section .nube-search-bar');
+    if (heroSearchBar) {
+      const heroCargoInput = heroSearchBar.querySelector('input[placeholder="Cargo, palavra-chave ou empresa"]');
+      const heroLocalidadeInput = heroSearchBar.querySelector('input[placeholder="Localidade (Cidade/Estado)"]');
+      const heroSearchButton = heroSearchBar.querySelector('.nube-search-button');
 
-    if (authModal && closeAuthModalBtn && authForm) {
-        openAuthModalButtons.forEach(btn => {
-            btn.addEventListener('click', (event) => {
-                const isRegisterButton = event.target.classList.contains('nube-btn-register') || event.target.classList.contains('nube-btn-register_header');
-                const modalTitle = authModal.querySelector('h2');
-                const submitButton = authForm.querySelector('button[type="submit"]');
-
-                if (isRegisterButton) {
-                    // Se for um botão de registro, redirecionar para cadastro.html
-                    window.location.href = 'cadastro.html';
-                    return; // Parar execução adicional para abertura do modal
-                }
-
-                // Caso contrário, é um botão de login, então abra o modal para login
-                modalTitle.textContent = 'Login';
-                submitButton.textContent = 'Entrar';
-                authForm.onsubmit = handleLoginSubmit; // Atribuir manipulador de login
-                authModal.classList.remove('hidden');
-
-                if (mobileNav && mobileNav.classList.contains('is-open') && typeof closeMenu === 'function') {
-                    closeMenu();
-                }
-                const firstFocusableElementInModal = authModal.querySelector('input, button');
-                if (firstFocusableElementInModal) {
-                    firstFocusableElementInModal.focus();
-                }
-            });
+      if (heroSearchButton) {
+        heroSearchButton.addEventListener('click', () => {
+          const cargo = heroCargoInput.value.trim();
+          const localidade = heroLocalidadeInput.value.trim();
+          window.location.href = `search.html?cargo=${encodeURIComponent(cargo)}&localidade=${encodeURIComponent(localidade)}`;
         });
+      }
+    }
+  }
 
-        closeAuthModalBtn.addEventListener('click', () => {
-            authModal.classList.add('hidden');
-        });
+  // Tratamento de Formulário de Login/Registro (se ainda estiver em cadastro.html ou similar)
+  const studentRegistrationForm = document.getElementById('cadastroForm');
+  if (studentRegistrationForm) {
+    studentRegistrationForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      // ... validação existente ...
+      const userEmail = this.email.value;
+      const userPassword = this.senha.value; // Supondo que 'senha' seja o nome do campo de senha
 
-        function handleLoginSubmit(e) {
-            e.preventDefault();
-            const email = authForm.email.value.trim();
-            const password = authForm.senha.value; // Senha em texto simples (RUIM para produção)
-
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const foundUser = users.find(user => user.email === email && user.password === password); // Verificação direta de senha (RUIM)
-
-            if (foundUser) {
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('loggedInUserEmail', foundUser.email);
-                authModal.classList.add('hidden');
-                updateLoginUI(); // Atualizar cabeçalho/navegação
-                alert('Login bem-sucedido!');
-                window.location.href = 'profile.html'; // Ou painel
-            } else {
-                alert('E-mail ou senha inválidos.');
-            }
+      if (userEmail && userPassword) {
+        // Armazenar usuário (simplificado: sobrescreve se o e-mail existir ou adiciona novo)
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        const existingUserIndex = users.findIndex(u => u.email === userEmail);
+        const newUser = {
+          email: userEmail,
+          password: userPassword, // Em um aplicativo real, FAÇA HASH DA SENHA!
+          name: this.nome.value,
+          // ... outros campos ...
+        };
+        if (existingUserIndex > -1) {
+          users[existingUserIndex] = newUser; // Atualizar usuário existente
+        } else {
+          users.push(newUser);
         }
-    }
+        localStorage.setItem('users', JSON.stringify(users));
 
-    // Chamar atualização da UI no carregamento
-    updateLoginUI();
+        alert('Cadastro realizado com sucesso! Você será redirecionado para o login.');
+        // Simular auto-login ou redirecionar para a página/modal de login
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('loggedInUserEmail', userEmail);
+        updateLoginUI(); // Atualizar UI imediatamente
+        window.location.href = 'index.html'; // Redirecionar para a página inicial ou perfil
+      } else {
+        alert('Por favor, preencha e-mail e senha.');
+      }
+    });
+  }
+
+  // Lógica do Modal de Autenticação
+  const authModal = document.getElementById('auth-modal');
+  const openAuthModalButtons = document.querySelectorAll(
+    '.nube-btn-login, .nube-btn-register, .nube-btn-login_header, .nube-btn-register_header'
+  );
+  const closeAuthModalBtn = document.getElementById('close-auth-modal');
+  const authForm = document.getElementById('register-form'); // Este é o formulário de login no modal
+
+  if (authModal && closeAuthModalBtn && authForm) {
+    openAuthModalButtons.forEach(btn => {
+      btn.addEventListener('click', (event) => {
+        const isRegisterButton = event.target.classList.contains('nube-btn-register') || event.target.classList.contains('nube-btn-register_header');
+        const modalTitle = authModal.querySelector('h2');
+        const submitButton = authForm.querySelector('button[type="submit"]');
+
+        if (isRegisterButton) {
+          // Se for um botão de registro, redirecionar para cadastro.html
+          window.location.href = 'cadastro.html';
+          return; // Parar execução adicional para abertura do modal
+        }
+
+        // Caso contrário, é um botão de login, então abra o modal para login
+        modalTitle.textContent = 'Login';
+        submitButton.textContent = 'Entrar';
+        authForm.onsubmit = handleLoginSubmit; // Atribuir manipulador de login
+        authModal.classList.remove('hidden');
+
+        if (mobileNav && mobileNav.classList.contains('is-open') && typeof closeMenu === 'function') {
+          closeMenu();
+        }
+        const firstFocusableElementInModal = authModal.querySelector('input, button');
+        if (firstFocusableElementInModal) {
+          firstFocusableElementInModal.focus();
+        }
+      });
+    });
+
+    closeAuthModalBtn.addEventListener('click', () => {
+      authModal.classList.add('hidden');
+    });
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const email = authForm.email.value.trim();
+      const password = authForm.senha.value; // Senha em texto simples (RUIM para produção)
+
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const foundUser = users.find(user => user.email === email && user.password === password); // Verificação direta de senha (RUIM)
+
+      if (foundUser) {
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('loggedInUserEmail', foundUser.email);
+        authModal.classList.add('hidden');
+        updateLoginUI(); // Atualizar cabeçalho/navegação
+        alert('Login bem-sucedido!');
+        window.location.href = 'profile.html'; // Ou painel
+      } else {
+        alert('E-mail ou senha inválidos.');
+      }
+    }
+  }
+
+  // Chamar atualização da UI no carregamento
+  updateLoginUI();
 });
 
-// ... (restante do script.js: mobileMenuToggle, closeMenu, updateLoginUI, addLogoutButton, removeLogoutButton) ...
+
+document.addEventListener('DOMContentLoaded', () => {
+    // ... (todo o seu código existente do script.js) ...
+
+    // --- LÓGICA PARA PUBLICAR VAGA ---
+    const publishVacancyForm = document.getElementById('publishVacancyForm');
+
+    if (publishVacancyForm) {
+        publishVacancyForm.addEventListener('submit', function (e) {
+            e.preventDefault(); // Impede o recarregamento da página
+
+            // Pega as vagas já existentes no localStorage ou cria um array novo
+            const existingVacancies = JSON.parse(localStorage.getItem('vacancies')) || [];
+
+            // Cria um objeto para a nova vaga com os dados do formulário
+            const newVacancy = {
+                id: Date.now(), // Cria um ID único baseado no tempo
+                title: this.vacancyTitle.value,
+                company: this.companyName.value,
+                location: this.vacancyLocation.value,
+                salary: this.vacancySalary.value,
+                workload: this.vacancyWorkload.value,
+                benefits: this.vacancyBenefits.value.split(','), // Separa os benefícios por vírgula
+                description: this.vacancyDescription.value,
+                datePosted: new Date().toLocaleDateString('pt-BR') // Adiciona a data de publicação
+            };
+
+            // Adiciona a nova vaga ao array de vagas
+            existingVacancies.push(newVacancy);
+
+            // Salva o array atualizado de volta no localStorage
+            localStorage.setItem('vacancies', JSON.stringify(existingVacancies));
+
+            // Informa o usuário e limpa o formulário
+            alert('Vaga publicada com sucesso!');
+            this.reset();
+
+            // Redireciona o usuário para a página de busca para ver a nova vaga
+            window.location.href = 'search.html';
+        });
+    }
+});

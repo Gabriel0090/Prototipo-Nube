@@ -10,9 +10,7 @@
 </head>
 
 <body class="bg-gray-100">
-    <div class="rotate-device-message">
-        <p>Por favor, utilize o dispositivo na vertical para uma melhor experiência.</p>
-    </div>
+   
     <div class="max-w-4xl mx-auto p-8 bg-white mt-10 rounded-lg shadow-lg">
         <h1 class="text-3xl font-bold mb-6 text-center">Cadastro de Estudante</h1>
         <form id="cadastroForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -119,22 +117,6 @@
         </form>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('cadastroForm');
-
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                // Aqui você pode validar os campos se quiser
-                // const nome = form.nome.value.trim();
-                // if (!nome) return alert('Preencha o nome.');
-
-                // Simula cadastro finalizado com sucesso
-                window.location.href = 'index.html';
-            });
-        });
-    </script>
 </body>
 
 </html>

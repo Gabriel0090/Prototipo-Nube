@@ -1232,6 +1232,7 @@ body {
     /* Cinza (Tailwind gray-400) */
 }
 
+
 /* Mensagem para rotação de tela */
 .rotate-device-message {
     display: none; /* Escondido por padrão */
