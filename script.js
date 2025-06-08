@@ -147,6 +147,10 @@ function initSearchPageLogic() {
   cargo?.addEventListener("input", filtrar);
   local?.addEventListener("input", filtrar);
 
+  // ADICIONE ESTAS DUAS LINHAS ABAIXO PARA CORRIGIR O BUG
+  cargo?.addEventListener("blur", filtrar);
+  local?.addEventListener("blur", filtrar);
+
   const params = new URLSearchParams(location.search);
   if (params.get("cargo")) cargo.value = params.get("cargo");
   if (params.get("localidade")) local.value = params.get("localidade");
