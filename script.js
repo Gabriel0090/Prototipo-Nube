@@ -92,10 +92,34 @@ function initHeroSearch() {
     window.location.href = query;
   });
 }
-
+/**
+ * Remove acentos de uma string e a converte para minúsculas.
+ * Ex: "Estágio" se torna "estagio"
+ */
+function removerAcentos(texto) {
+  if (!texto) return "";
+  return texto
+    .normalize("NFD") // Separa a letra do acento
+    .replace(/[\u0300-\u036f]/g, "") // Remove os acentos
+    .toLowerCase(); // Converte para minúsculas
+}
 /* ---------------------------------------
+ /* ---------------------------------------
    🔎 LÓGICA DE FILTRO NA PÁGINA DE BUSCA
 ---------------------------------------- */
+
+/**
+ * Remove acentos de uma string e a converte para minúsculas.
+ * Ex: "Estágio" se torna "estagio"
+ */
+function removerAcentos(texto) {
+  if (!texto) return "";
+  return texto
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
 function initSearchPageLogic() {
   if (!location.pathname.includes("search.html")) return;
 
@@ -132,13 +156,17 @@ function initSearchPageLogic() {
   const btn = form.querySelector(".nube-search-button");
 
   function filtrar() {
-    const termoCargo = cargo.value.toLowerCase();
-    const termoLocal = local.value.toLowerCase();
+    // MODIFICAÇÃO AQUI: Usa a função para normalizar os termos de busca
+    const termoCargo = removerAcentos(cargo.value);
+    const termoLocal = removerAcentos(local.value);
 
     cards.forEach((card) => {
-      const match = card.textContent.toLowerCase();
-      const okCargo = !termoCargo || match.includes(termoCargo);
-      const okLocal = !termoLocal || match.includes(termoLocal);
+      // MODIFICAÇÃO AQUI: Normaliza o conteúdo do card antes de comparar
+      const conteudoCard = removerAcentos(card.textContent);
+
+      const okCargo = !termoCargo || conteudoCard.includes(termoCargo);
+      const okLocal = !termoLocal || conteudoCard.includes(termoLocal);
+
       card.style.display = okCargo && okLocal ? "" : "none";
     });
   }
@@ -146,8 +174,6 @@ function initSearchPageLogic() {
   btn?.addEventListener("click", filtrar);
   cargo?.addEventListener("input", filtrar);
   local?.addEventListener("input", filtrar);
-
-  // ADICIONE ESTAS DUAS LINHAS ABAIXO PARA CORRIGIR O BUG
   cargo?.addEventListener("blur", filtrar);
   local?.addEventListener("blur", filtrar);
 
