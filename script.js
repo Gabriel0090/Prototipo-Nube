@@ -92,32 +92,25 @@ function initHeroSearch() {
     window.location.href = query;
   });
 }
-/**
- * Remove acentos de uma string e a converte para minúsculas.
- * Ex: "Estágio" se torna "estagio"
- */
-function removerAcentos(texto) {
-  if (!texto) return "";
-  return texto
-    .normalize("NFD") // Separa a letra do acento
-    .replace(/[\u0300-\u036f]/g, "") // Remove os acentos
-    .toLowerCase(); // Converte para minúsculas
-}
+// ============================================================================
+// COPIE E COLE TODO ESTE BLOCO NO LUGAR DA SUA FUNÇÃO initSearchPageLogic
+// ============================================================================
+
 /* ---------------------------------------
- /* ---------------------------------------
-   🔎 LÓGICA DE FILTRO NA PÁGINA DE BUSCA
+   🔎 LÓGICA DE FILTRO NA PÁGINA DE BUSCA (VERSÃO DEFINITIVA)
 ---------------------------------------- */
 
 /**
- * Remove acentos de uma string e a converte para minúsculas.
- * Ex: "Estágio" se torna "estagio"
+ * Função para limpar e padronizar texto para a busca.
+ * Ela remove acentos, espaços desnecessários e converte para minúsculas.
  */
 function removerAcentos(texto) {
   if (!texto) return "";
   return texto
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
+    .trim() // 1. Remove espaços do início e do fim
+    .normalize("NFD") // 2. Separa letras dos acentos
+    .replace(/[\u0300-\u036f]/g, "") // 3. Remove os acentos
+    .toLowerCase(); // 4. Converte para minúsculas
 }
 
 function initSearchPageLogic() {
@@ -155,28 +148,33 @@ function initSearchPageLogic() {
   const [cargo, local] = form.querySelectorAll("input");
   const btn = form.querySelector(".nube-search-button");
 
+  // Função principal que faz a mágica de filtrar
   function filtrar() {
-    // MODIFICAÇÃO AQUI: Usa a função para normalizar os termos de busca
+    // Usa a função para limpar o que o usuário digitou
     const termoCargo = removerAcentos(cargo.value);
     const termoLocal = removerAcentos(local.value);
 
+    // Passa por cada vaga para ver se deve ser mostrada ou não
     cards.forEach((card) => {
-      // MODIFICAÇÃO AQUI: Normaliza o conteúdo do card antes de comparar
+      // Limpa também o texto da vaga para a comparação ser justa
       const conteudoCard = removerAcentos(card.textContent);
-
-      const okCargo = !termoCargo || conteudoCard.includes(termoCargo);
-      const okLocal = !termoLocal || conteudoCard.includes(termoLocal);
-
-      card.style.display = okCargo && okLocal ? "" : "none";
+      
+      const encontrouCargo = !termoCargo || conteudoCard.includes(termoCargo);
+      const encontrouLocal = !termoLocal || conteudoCard.includes(termoLocal);
+      
+      // Mostra o card apenas se corresponder à busca
+      card.style.display = encontrouCargo && encontrouLocal ? "" : "none";
     });
   }
 
+  // Gatilhos que chamam a função filtrar
   btn?.addEventListener("click", filtrar);
   cargo?.addEventListener("input", filtrar);
   local?.addEventListener("input", filtrar);
   cargo?.addEventListener("blur", filtrar);
   local?.addEventListener("blur", filtrar);
 
+  // Preenche a busca se vier da página inicial
   const params = new URLSearchParams(location.search);
   if (params.get("cargo")) cargo.value = params.get("cargo");
   if (params.get("localidade")) local.value = params.get("localidade");
