@@ -488,98 +488,78 @@ body {
 }
 
 /* Barra de Busca */
+/* Substitua a regra antiga de .nube-search-bar por esta */
 .nube-search-bar {
-    background-color: transparent;
-    /* Transparente no mobile (sobre o hero) */
-    box-shadow: none;
+    background-color: #ffffff;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     padding: 1rem;
-    border-radius: 9999px;
-    /* pill shape */
-    max-width: 48rem;
-    /* Largura máxima */
+    border-radius: 1rem;
+    max-width: 72rem;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 2rem;
     display: flex;
-    flex-direction: column;
-    /* Empilhado no mobile */
-    row-gap: 1rem;
-    /* Espaço entre inputs no mobile */
+    flex-wrap: wrap; /* Permite que os itens quebrem para a linha de baixo */
+    gap: 0.75rem; /* Espaçamento entre os itens */
+    align-items: center;
 }
 
-@media (min-width: 768px) {
-
-    /* md breakpoint */
-    .nube-search-bar {
-        flex-direction: row;
-        /* Lado a lado no desktop */
-        row-gap: 0;
-        column-gap: 1rem;
-        /* Espaço entre inputs no desktop */
-        background-color: #ffffff;
-        /* Fundo branco no desktop */
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        /* Sombra */
-    }
-}
-
+/* Substitua a regra antiga de .nube-search-input por esta */
 .nube-search-input {
-    flex: 1;
-    /* Ocupa espaço disponível */
+    flex: 1 1 180px; /* Chave da mudança: permite crescer e encolher, com largura base de 180px */
+    min-width: 180px; /* Garante uma largura mínima para não ficar muito espremido */
     padding: 0.75rem 1.25rem;
     border-radius: 9999px;
-    /* pill shape */
     border: 1px solid #d1d5db;
-    /* Borda cinza clara */
     outline: none;
     color: #374151;
-    /* Cor do texto do input */
+    background-color: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2em;
+    padding-right: 2.5rem;
 }
 
+/* Garante que o foco continue funcionando */
 .nube-search-input:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
     box-shadow: 0 0 0 2px #93c5fd;
-    /* Borda azul clara no foco (Tailwind focus ring) */
 }
 
+/* Modifique a regra do botão para se adaptar ao layout flex */
 .nube-search-button {
-    width: 100%;
-    /* Largura total no mobile */
+    flex-shrink: 0; /* Impede que o botão seja espremido */
     padding: 0.75rem 2rem;
     background-color: #2563eb;
-    /* Azul */
     color: #ffffff;
-    /* Branco */
     border-radius: 9999px;
-    /* pill shape */
     font-weight: 600;
-    /* semi-bold */
     transition-property: all;
     transition-duration: 300ms;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    /* Sombra */
+    width: auto; /* Permite que o botão tenha sua largura natural */
 }
 
+/* Remove a regra de mídia que forçava o botão a ter 'width: auto' apenas em telas grandes */
 @media (min-width: 768px) {
-
-    /* md breakpoint */
     .nube-search-button {
-        width: auto;
-        /* Largura automática no desktop */
+        /* A regra 'width: auto' já está na classe principal, então podemos simplificar */
     }
 }
 
 .nube-search-button:hover {
     background-color: #1d4ed8;
-    /* Azul mais escuro ao passar o mouse */
 }
 
+/* Mantém a dica escondida */
 .nube-search-mobile-hint {
-    /* Dica para mobile, se necessário */
     display: none;
-    /* Geralmente não precisa se o layout for intuitivo */
 }
-
 /* Seções de Conteúdo Genéricas */
 .nube-content-section {
     padding: 4rem 0;
@@ -1309,6 +1289,7 @@ body {
 .nube-btn-logout-mobile:hover {
     background-color: #f3f4f6;
 }
+
 /* Adicione no final do seu arquivo style.css */
 
 /* Melhora a transição do modal (opcional) */
@@ -1319,4 +1300,71 @@ body {
 /* Garante que o scroll do modal funcione bem */
 #vacancy-details-modal .max-h-\[90vh\] {
     max-height: 90vh;
+}
+
+/* style.css */
+
+/* === ESTILOS PARA O INDICADOR DE CARREGAMENTO (LOADING) === */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 3rem 0;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #2563eb;
+    /* Cor azul do seu site */
+
+    animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Classe auxiliar que o JS usará. O Tailwind já tem uma classe 'hidden', 
+   mas esta é para garantir a compatibilidade caso o CSS seja alterado. */
+.hidden {
+    display: none;
+}
+
+.nube-search-input {
+    flex: 1;
+    padding: 0.75rem 1.25rem;
+    border-radius: 9999px;
+    border: 1px solid #d1d5db;
+    outline: none;
+    color: #374151;
+    background-color: #fff;
+    /* Garante fundo branco */
+    -webkit-appearance: none;
+    /* Remove aparência padrão no Safari/Chrome */
+    -moz-appearance: none;
+    /* Remove aparência padrão no Firefox */
+    appearance: none;
+    /* Remove aparência padrão em outros navegadores */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2em;
+    padding-right: 2.5rem;
+    /* Espaço para a seta */
+}
+
+.nube-search-input:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px #93c5fd;
 }

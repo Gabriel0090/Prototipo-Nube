@@ -63,13 +63,31 @@
         <div class="nube-container">
             <h2 class="nube-section-title">Buscar Vagas</h2>
 
-            <div class="nube-search-bar"
-                style="background-color: #ffffff; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); margin-bottom: 2rem;">
+            <div class="nube-search-bar">
                 <input type="text" placeholder="Cargo, palavra-chave ou empresa" class="nube-search-input">
                 <input type="text" placeholder="Localidade (Cidade/Estado)" class="nube-search-input">
+
+                <select id="faixa-salarial" class="nube-search-input">
+                    <option value="">Faixa Salarial (Todas)</option>
+                    <option value="ate-1000">Até R$ 1.000</option>
+                    <option value="1001-1500">R$ 1.001 a R$ 1.500</option>
+                    <option value="1501-2000">R$ 1.501 a R$ 2.000</option>
+                    <option value="acima-2000">Acima de R$ 2.000</option>
+                </select>
+
+                <select id="carga-horaria" class="nube-search-input">
+                    <option value="">Carga Horária (Todas)</option>
+                    <option value="ate-20">Até 20h/semana</option>
+                    <option value="21-30">21h a 30h/semana</option>
+                    <option value="acima-30">Acima de 30h/semana</option>
+                </select>
+
                 <button class="nube-search-button">Buscar Vagas</button>
             </div>
-
+            <div id="loading-spinner" class="loading-container hidden">
+                <div class="spinner"></div>
+                <p class="text-gray-600 mt-2">Buscando vagas...</p>
+            </div>
             <div class="nube-card-grid">
                 <div class="nube-vaga-card" data-title="Estágio em Desenvolvimento Web"
                     data-company="TechSolutions Ltda." data-location="São Paulo, SP" data-salary="R$ 1.800,00"

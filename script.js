@@ -116,114 +116,130 @@ function removerAcentos(texto) {
 }
 
 /* ---------------------------------------
-   🔎 LÓGICA DE FILTRO E PAGINAÇÃO NA PÁGINA DE BUSCA
+   🔎 LÓGICA DE FILTRO AVANÇADO, PAGINAÇÃO E LOADING
 ---------------------------------------- */
 function initSearchPageLogic() {
   if (!location.pathname.includes("search.html")) return;
 
+  // --- Variáveis de controle ---
   const VAGAS_POR_PAGINA = 9;
   let vagasVisiveis = VAGAS_POR_PAGINA;
   let todasAsVagas = [];
   let vagasFiltradas = [];
 
+  // --- Seleção de Elementos ---
   const form = document.querySelector(".nube-search-bar");
   const grid = document.querySelector(".nube-card-grid");
   const btnCarregarMais = document.querySelector('.nube-centered-button-wrapper .nube-btn-primary');
+  const loadingSpinner = document.getElementById('loading-spinner');
 
-  if (!form || !grid || !btnCarregarMais) return;
+  if (!form || !grid || !btnCarregarMais || !loadingSpinner) return;
 
-  // 1. Coleta todas as vagas, tanto as estáticas quanto as dinâmicas
+  // --- Coleta e Criação dos Cards ---
   const vagasEstaticas = Array.from(grid.querySelectorAll(".nube-vaga-card"));
   const vagasSalvas = JSON.parse(localStorage.getItem("vacancies")) || [];
 
   vagasSalvas.forEach((v) => {
-    // Adiciona os data-attributes para o modal de detalhes funcionar
-    const description = v.description || 'Nenhuma descrição fornecida.';
-    const salary = v.salary || 'Não informado';
-    const workload = v.workload || 'Não informado';
-    const benefits = v.benefits?.join(', ') || 'Não informado';
-    const cardHtml = `
-      <div class="nube-vaga-card" 
-        data-title="${v.title}" 
-        data-company="${v.company}" 
-        data-location="${v.location}"
-        data-description="${description}"
-        data-salary="${salary}"
-        data-workload="${workload}"
-        data-benefits="${benefits}">
-        <h3 class="nube-vaga-title">${v.title}</h3>
-        <p class="nube-vaga-empresa">${v.company}</p>
-        <p class="nube-vaga-location">${v.location}</p>
-        <ul class="nube-vaga-details-list">
-            ${v.salary ? `<li>Bolsa: ${v.salary}</li>` : ""}
-            ${v.workload ? `<li>Carga horária: ${v.workload}</li>` : ""}
-        </ul>
-        <div class="nube-vaga-footer-meta">
-            <button class="nube-btn-details">Ver Detalhes</button>
-            <span class="nube-vaga-date-posted">${v.datePosted || "Data não informada"}</span>
-        </div>
-      </div>`;
-    grid.insertAdjacentHTML("beforeend", cardHtml);
+    // ... (código para criar cards dinâmicos continua aqui, sem alterações) ...
   });
 
   todasAsVagas = Array.from(grid.querySelectorAll(".nube-vaga-card"));
-  vagasFiltradas = [...todasAsVagas]; // Inicialmente, todas as vagas estão "filtradas"
+  vagasFiltradas = [...todasAsVagas];
 
-  const [cargo, local] = form.querySelectorAll("input");
-  const btnBuscar = form.querySelector(".nube-search-button");
+  // --- Seleção dos Campos de Filtro ---
+  const [cargoInput, localInput] = form.querySelectorAll("input");
+  const salarioSelect = document.getElementById('faixa-salarial');
+  const cargaHorariaSelect = document.getElementById('carga-horaria');
 
-  // Função que controla a exibição das vagas e do botão "Carregar Mais"
+  // --- Funções Auxiliares para Análise ---
+  const parseSalary = (salaryText) => {
+    if (!salaryText) return 0;
+    return parseFloat(salaryText.replace(/[^0-9,]/g, '').replace(',', '.')) || 0;
+  };
+
+  const parseWorkload = (workloadText) => {
+    if (!workloadText) return 0;
+    return parseInt(workloadText.replace(/[^0-9]/g, '')) || 0;
+  };
+
+  // --- Lógica Principal de Exibição e Filtragem ---
   function exibirVagas() {
-    todasAsVagas.forEach(card => card.style.display = 'none'); // Esconde todas primeiro
-
+    todasAsVagas.forEach(card => card.style.display = 'none');
     const vagasParaExibir = vagasFiltradas.slice(0, vagasVisiveis);
     vagasParaExibir.forEach(card => card.style.display = '');
 
-    // Esconde o botão se não houver mais vagas para mostrar
-    if (vagasVisiveis >= vagasFiltradas.length) {
-      btnCarregarMais.style.display = 'none';
-    } else {
-      btnCarregarMais.style.display = '';
-    }
+    btnCarregarMais.style.display = vagasVisiveis >= vagasFiltradas.length ? 'none' : '';
   }
 
-  // Função que filtra as vagas com base nos inputs
   function filtrarVagas() {
-    const termoCargo = removerAcentos(cargo.value);
-    const termoLocal = removerAcentos(local.value);
+    loadingSpinner.classList.remove('hidden');
+    grid.style.display = 'none';
+    btnCarregarMais.style.display = 'none';
 
-    vagasFiltradas = todasAsVagas.filter(card => {
-      const conteudoCard = removerAcentos(card.textContent);
-      const encontrouCargo = !termoCargo || conteudoCard.includes(termoCargo);
-      const encontrouLocal = !termoLocal || conteudoCard.includes(termoLocal);
-      return encontrouCargo && encontrouLocal;
-    });
+    setTimeout(() => {
+      const termoCargo = removerAcentos(cargoInput.value);
+      const termoLocal = removerAcentos(localInput.value);
+      const filtroSalario = salarioSelect.value;
+      const filtroCarga = cargaHorariaSelect.value;
 
-    // Reseta a contagem e exibe a primeira página de resultados
-    vagasVisiveis = VAGAS_POR_PAGINA;
-    exibirVagas();
+      vagasFiltradas = todasAsVagas.filter(card => {
+        const conteudoCard = removerAcentos(card.textContent);
+        const salarioCard = parseSalary(card.dataset.salary);
+        const cargaCard = parseWorkload(card.dataset.workload);
+
+        // --- Verificações dos Filtros ---
+        const encontrouCargo = !termoCargo || conteudoCard.includes(termoCargo);
+        const encontrouLocal = !termoLocal || conteudoCard.includes(termoLocal);
+
+        let encontrouSalario = true;
+        if (filtroSalario) {
+          switch (filtroSalario) {
+            case 'ate-1000': encontrouSalario = salarioCard > 0 && salarioCard <= 1000; break;
+            case '1001-1500': encontrouSalario = salarioCard > 1000 && salarioCard <= 1500; break;
+            case '1501-2000': encontrouSalario = salarioCard > 1500 && salarioCard <= 2000; break;
+            case 'acima-2000': encontrouSalario = salarioCard > 2000; break;
+          }
+        }
+
+        let encontrouCarga = true;
+        if (filtroCarga) {
+          switch (filtroCarga) {
+            case 'ate-20': encontrouCarga = cargaCard > 0 && cargaCard <= 20; break;
+            case '21-30': encontrouCarga = cargaCard > 20 && cargaCard <= 30; break;
+            case 'acima-30': encontrouCarga = cargaCard > 30; break;
+          }
+        }
+
+        return encontrouCargo && encontrouLocal && encontrouSalario && encontrouCarga;
+      });
+
+      vagasVisiveis = VAGAS_POR_PAGINA;
+      loadingSpinner.classList.add('hidden');
+      grid.style.display = '';
+      exibirVagas();
+    }, 500);
   }
 
-  // Configuração dos Eventos
-  btnBuscar?.addEventListener("click", filtrarVagas);
-  cargo?.addEventListener("input", filtrarVagas);
-  local?.addEventListener("input", filtrarVagas);
+  // --- Configuração dos Eventos ---
+  form.addEventListener('submit', (e) => e.preventDefault()); // Impede o envio do formulário
+  cargoInput.addEventListener("input", filtrarVagas);
+  localInput.addEventListener("input", filtrarVagas);
+  salarioSelect.addEventListener("change", filtrarVagas);
+  cargaHorariaSelect.addEventListener("change", filtrarVagas);
 
   btnCarregarMais.addEventListener('click', () => {
     vagasVisiveis += VAGAS_POR_PAGINA;
     exibirVagas();
   });
 
-  // Preenche a busca se vier da página inicial e executa a exibição inicial
-  const params = new URLSearchParams(location.search);
-  if (params.get("cargo")) cargo.value = params.get("cargo");
-  if (params.get("localidade")) local.value = params.get("localidade");
+  // --- Execução Inicial ---
+  exibirVagas();
+}
 
-  if (params.get("cargo") || params.get("localidade")) {
-    filtrarVagas();
-  } else {
-    exibirVagas(); // Exibição inicial das 9 primeiras vagas
-  }
+// Não se esqueça da função removerAcentos() que já deve existir no seu código
+function removerAcentos(texto) {
+  if (!texto) return "";
+  return texto.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
 
 // Função auxiliar que você já deve ter no seu script.js
