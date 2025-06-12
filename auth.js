@@ -8,7 +8,6 @@ class AuthSystem {
     this.checkLoginState();
     this.setupLoginForm();
     this.setupRegisterForm();
-    this.setupPasswordToggles(); // <-- 1. ADICIONE A CHAMADA PARA A NOVA FUNÇÃO AQUI
     this.updateUI();
   }
 
@@ -103,7 +102,7 @@ class AuthSystem {
     });
   }
 
- 
+
   setupRegisterForm() {
     const registerForm = document.getElementById("cadastroForm");
     if (!registerForm) return;
@@ -253,3 +252,7 @@ class AuthSystem {
     }
   }
 }
+
+// --- ADICIONADO ---
+// Inicia o sistema de autenticação assim que o script é carregado
+new AuthSystem();

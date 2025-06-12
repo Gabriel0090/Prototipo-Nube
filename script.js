@@ -42,36 +42,54 @@ function initMobileMenu() {
 }
 
 /* -------------------------------
-   🔐 MODAL DE LOGIN E REGISTRO
+   🔐 MODAL DE LOGIN E REGISTRO (CORRIGIDO)
 ------------------------------- */
-// Em script.js
 function initModalAuth() {
   const modal = document.getElementById("auth-modal");
   const closeBtn = document.getElementById("close-auth-modal");
-  const openBtns = document.querySelectorAll(
-    ".nube-btn-login, .nube-btn-login_header, .nube-btn-register, .nube-btn-register_header"
+
+  // Seleciona os botões de LOGIN (que devem abrir o modal)
+  const loginBtns = document.querySelectorAll(
+    ".nube-btn-login, .nube-btn-login_header"
   );
 
-  if (!modal) return;
+  // Seleciona os botões de CADASTRO (que devem redirecionar)
+  const registerBtns = document.querySelectorAll(
+    ".nube-btn-register, .nube-btn-register_header"
+  );
 
-  openBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      // ... (código existente para abrir o modal)
+  // 1. Configura os BOTÕES DE LOGIN para abrir o modal
+  if (modal) {
+    loginBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        // Ajusta o título e o botão do modal para o contexto de "Login"
+        const modalTitle = modal.querySelector("h2");
+        const modalSubmitBtn = modal.querySelector('button[type="submit"]');
+        if (modalTitle) modalTitle.textContent = "Login";
+        if (modalSubmitBtn) modalSubmitBtn.textContent = "Entrar";
 
-      modal.classList.remove("hidden");
+        modal.classList.remove("hidden");
+        setupPasswordToggle('senha', 'login-password-toggle');
 
-      // CHAMA A FUNÇÃO DE TOGGLE ASSIM QUE O MODAL ABRE
-      setupPasswordToggle('senha', 'login-password-toggle');
+        const input = modal.querySelector("input, button");
+        if (input) input.focus();
+      });
+    });
 
-      const input = modal.querySelector("input, button");
-      if (input) input.focus();
+    // Adiciona o evento para fechar o modal
+    if (closeBtn) {
+      closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
+    }
+  }
+
+  // 2. Configura os BOTÕES DE CADASTRO para redirecionar para a página de cadastro
+  registerBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      window.location.href = "cadastro.html";
     });
   });
-
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
-  }
 }
+
 
 /* ------------------------------
    🔍 BARRA DE PESQUISA HERO
