@@ -14,15 +14,15 @@
     <div class="max-w-4xl mx-auto p-8 bg-white mt-10 rounded-lg shadow-lg">
         <h1 class="text-3xl font-bold mb-6 text-center">Cadastro de Estudante</h1>
         <form id="cadastroForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Dados de acesso (adicionados) -->
             <div>
                 <label class="block font-medium">Email</label>
                 <input type="email" name="email" class="w-full border p-2 rounded" required>
             </div>
             <div class="relative">
                 <label class="block font-medium">Senha</label>
-                <input type="password" name="senha" class="w-full border p-2 rounded" required>
-                <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
+                <input type="password" name="senha" id="senha" class="w-full border p-2 rounded" required>
+                <span id="senha-toggle" class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                    style="top: 2.25rem;">
                     <svg class="h-5 w-5 text-gray-400 password-toggle-icon" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -34,8 +34,10 @@
             </div>
             <div class="relative">
                 <label class="block font-medium">Confirmar Senha</label>
-                <input type="password" name="confirmar_senha" class="w-full border p-2 rounded" required>
-                <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
+                <input type="password" name="confirmar_senha" id="confirmar_senha" class="w-full border p-2 rounded"
+                    required>
+                <span id="confirmar_senha-toggle"
+                    class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" style="top: 2.25rem;">
                     <svg class="h-5 w-5 text-gray-400 password-toggle-icon" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -46,7 +48,6 @@
                 </span>
             </div>
 
-            <!-- Dados pessoais -->
             <div>
                 <label class="block font-medium">Nome completo</label>
                 <input type="text" name="nome" class="w-full border p-2 rounded" required>
@@ -64,7 +65,6 @@
                     <option value="feminino">Feminino</option>
                     <option value="outro">Outro</option>
                     <option value="nao_informar">Prefiro não informar</option>
-
                 </select>
             </div>
             <div>
@@ -72,13 +72,11 @@
                 <input type="text" name="cpf" class="w-full border p-2 rounded" required>
             </div>
 
-            <!-- Contato -->
             <div>
                 <label class="block font-medium">Telefone</label>
                 <input type="tel" name="telefone" class="w-full border p-2 rounded" required>
             </div>
 
-            <!-- Endereço -->
             <div>
                 <label class="block font-medium">CEP</label>
                 <input type="text" name="cep" class="w-full border p-2 rounded" required>
@@ -107,11 +105,9 @@
                     <option value="RJ">RJ</option>
                     <option value="MG">MG</option>
                     <option value="RS">RS</option>
-                    <!-- Adicione os demais estados -->
                 </select>
             </div>
 
-            <!-- Escolaridade -->
             <div class="md:col-span-2">
                 <label class="block font-medium">Nível de Escolaridade</label>
                 <select name="escolaridade" class="w-full border p-2 rounded" required>
@@ -154,14 +150,6 @@
             </div>
         </form>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Para o campo "Senha"
-            setupPasswordToggle('id_do_seu_input_de_senha', 'register-password-toggle');
-            // Para o campo "Confirmar Senha"
-            setupPasswordToggle('id_do_seu_input_de_confirmar_senha', 'confirm-password-toggle');
-        });
-    </script>
     <script src="script.js"></script>
     <script src="auth.js"></script>
 </body>
