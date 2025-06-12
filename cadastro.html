@@ -19,13 +19,31 @@
                 <label class="block font-medium">Email</label>
                 <input type="email" name="email" class="w-full border p-2 rounded" required>
             </div>
-            <div>
+            <div class="relative">
                 <label class="block font-medium">Senha</label>
                 <input type="password" name="senha" class="w-full border p-2 rounded" required>
+                <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
+                    <svg class="h-5 w-5 text-gray-400 password-toggle-icon" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </span>
             </div>
-            <div>
+            <div class="relative">
                 <label class="block font-medium">Confirmar Senha</label>
                 <input type="password" name="confirmar_senha" class="w-full border p-2 rounded" required>
+                <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
+                    <svg class="h-5 w-5 text-gray-400 password-toggle-icon" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </span>
             </div>
 
             <!-- Dados pessoais -->
@@ -136,7 +154,14 @@
             </div>
         </form>
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Para o campo "Senha"
+            setupPasswordToggle('id_do_seu_input_de_senha', 'register-password-toggle');
+            // Para o campo "Confirmar Senha"
+            setupPasswordToggle('id_do_seu_input_de_confirmar_senha', 'confirm-password-toggle');
+        });
+    </script>
     <script src="script.js"></script>
     <script src="auth.js"></script>
 </body>

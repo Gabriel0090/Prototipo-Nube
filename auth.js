@@ -1,4 +1,3 @@
-
 class AuthSystem {
   constructor() {
     this.init();
@@ -9,6 +8,7 @@ class AuthSystem {
     this.checkLoginState();
     this.setupLoginForm();
     this.setupRegisterForm();
+    this.setupPasswordToggles(); // <-- 1. ADICIONE A CHAMADA PARA A NOVA FUNÇÃO AQUI
     this.updateUI();
   }
 
@@ -103,7 +103,7 @@ class AuthSystem {
     });
   }
 
-  // Configura o formulário de cadastro
+ 
   setupRegisterForm() {
     const registerForm = document.getElementById("cadastroForm");
     if (!registerForm) return;
@@ -111,30 +111,19 @@ class AuthSystem {
     const newRegisterForm = registerForm.cloneNode(true);
     registerForm.parentNode.replaceChild(newRegisterForm, registerForm);
 
-    // =================================================================
-    // ▼▼▼ CÓDIGO ADICIONADO PARA A MÁSCARA DE DATA ▼▼▼
-    // =================================================================
     const birthDateInput = newRegisterForm.querySelector('[name="data_nascimento"]');
     if (birthDateInput) {
       birthDateInput.addEventListener('input', (e) => {
-        // Remove todos os caracteres que não são dígitos
         let value = e.target.value.replace(/\D/g, '');
-
-        // Adiciona a primeira barra depois dos 2 primeiros dígitos (DD)
         if (value.length > 2) {
           value = `${value.slice(0, 2)}/${value.slice(2)}`;
         }
-        // Adiciona a segunda barra depois dos 5 primeiros caracteres (DD/MM)
         if (value.length > 5) {
           value = `${value.slice(0, 5)}/${value.slice(5, 9)}`;
         }
-        
         e.target.value = value;
       });
     }
-    // =================================================================
-    // ▲▲▲ FIM DO CÓDIGO ADICIONADO ▲▲▲
-    // =================================================================
 
     newRegisterForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -184,7 +173,7 @@ class AuthSystem {
       }
     });
   }
-  
+
   // Atualiza TODA a interface com base no estado de login
   updateUI() {
     this.checkLoginState();
@@ -242,16 +231,14 @@ class AuthSystem {
             modal.querySelector('button[type="submit"]').textContent = "Entrar";
             modal.classList.remove("hidden");
           }
-          
-          // --- INÍCIO DA CORREÇÃO ---
+
           const mobileNav = document.getElementById("nube-mobile-nav");
           if (mobileNav) mobileNav.classList.remove("is-open");
 
           const overlay = document.getElementById("mobile-nav-overlay");
           if (overlay) overlay.style.display = "none";
-          
+
           document.body.style.overflow = "";
-          // --- FIM DA CORREÇÃO ---
         });
         mobileNavAuthContainer.appendChild(loginBtnMobile);
 
@@ -266,7 +253,3 @@ class AuthSystem {
     }
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  window.authSystem = new AuthSystem();
-});

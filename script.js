@@ -44,6 +44,7 @@ function initMobileMenu() {
 /* -------------------------------
    🔐 MODAL DE LOGIN E REGISTRO
 ------------------------------- */
+// Em script.js
 function initModalAuth() {
   const modal = document.getElementById("auth-modal");
   const closeBtn = document.getElementById("close-auth-modal");
@@ -55,17 +56,12 @@ function initModalAuth() {
 
   openBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      if (
-        btn.classList.contains("nube-btn-register") ||
-        btn.classList.contains("nube-btn-register_header")
-      ) {
-        window.location.href = "cadastro.html";
-        return;
-      }
+      // ... (código existente para abrir o modal)
 
-      modal.querySelector("h2").textContent = "Login";
-      modal.querySelector('button[type="submit"]').textContent = "Entrar";
       modal.classList.remove("hidden");
+
+      // CHAMA A FUNÇÃO DE TOGGLE ASSIM QUE O MODAL ABRE
+      setupPasswordToggle('senha', 'login-password-toggle');
 
       const input = modal.querySelector("input, button");
       if (input) input.focus();
@@ -434,4 +430,36 @@ function initCandidacyPageLogic() {
 
   // Executa a função uma vez para mostrar as 3 primeiras candidaturas
   exibirCandidaturas();
+}
+function setupPasswordToggle(inputId, toggleId) {
+    const passwordInput = document.getElementById(inputId);
+    const toggle = document.getElementById(toggleId);
+
+    if (!passwordInput || !toggle) return;
+
+    // CORREÇÃO: As variáveis agora contêm apenas os <path> do SVG, não o <svg> inteiro.
+    const eyeIconPaths = `
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+    `;
+    const eyeOffIconPaths = `
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064 7 9.542 7 .847 0 1.67.127 2.454.364m-6.082 11.458A9.963 9.963 0 0112 15a3 3 0 100-6 3 3 0 00-1.025.208m-3.417 5.416a2.985 2.985 0 004.425 4.425L6.458 17.25zM12 9a3 3 0 013 3m-3 0a3 3 0 00-3 3m3-3l6.458 6.458m-6.458-6.458L5.542 3.542"></path>
+    `;
+
+    // Clona o elemento para remover listeners antigos e evitar bugs de múltiplos cliques
+    const newToggle = toggle.cloneNode(true);
+    toggle.parentNode.replaceChild(newToggle, toggle);
+
+    newToggle.addEventListener('click', () => {
+        // Encontra o elemento SVG que está dentro do <span> clicado
+        const svg = newToggle.querySelector('svg');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            svg.innerHTML = eyeOffIconPaths; // Troca apenas o conteúdo do SVG
+        } else {
+            passwordInput.type = 'password';
+            svg.innerHTML = eyeIconPaths; // Troca apenas o conteúdo do SVG
+        }
+    });
 }
