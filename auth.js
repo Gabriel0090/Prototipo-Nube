@@ -111,6 +111,31 @@ class AuthSystem {
     const newRegisterForm = registerForm.cloneNode(true);
     registerForm.parentNode.replaceChild(newRegisterForm, registerForm);
 
+    // =================================================================
+    // ▼▼▼ CÓDIGO ADICIONADO PARA A MÁSCARA DE DATA ▼▼▼
+    // =================================================================
+    const birthDateInput = newRegisterForm.querySelector('[name="data_nascimento"]');
+    if (birthDateInput) {
+      birthDateInput.addEventListener('input', (e) => {
+        // Remove todos os caracteres que não são dígitos
+        let value = e.target.value.replace(/\D/g, '');
+
+        // Adiciona a primeira barra depois dos 2 primeiros dígitos (DD)
+        if (value.length > 2) {
+          value = `${value.slice(0, 2)}/${value.slice(2)}`;
+        }
+        // Adiciona a segunda barra depois dos 5 primeiros caracteres (DD/MM)
+        if (value.length > 5) {
+          value = `${value.slice(0, 5)}/${value.slice(5, 9)}`;
+        }
+        
+        e.target.value = value;
+      });
+    }
+    // =================================================================
+    // ▲▲▲ FIM DO CÓDIGO ADICIONADO ▲▲▲
+    // =================================================================
+
     newRegisterForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const userData = {
