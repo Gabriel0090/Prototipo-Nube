@@ -1309,3 +1309,14 @@ body {
 .nube-btn-logout-mobile:hover {
     background-color: #f3f4f6;
 }
+/* Adicione no final do seu arquivo style.css */
+
+/* Melhora a transição do modal (opcional) */
+#vacancy-details-modal {
+    transition: opacity 0.3s ease;
+}
+
+/* Garante que o scroll do modal funcione bem */
+#vacancy-details-modal .max-h-\[90vh\] {
+    max-height: 90vh;
+}

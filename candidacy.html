@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    
+
     <header class="nube-header">
         <div class="nube-header-content-wrapper">
             <a href="index.html" class="nube-logo"><img src="imagens/WhatsApp Image 2025-05-30 at 17.47.04.jpeg"
@@ -23,7 +23,7 @@
                 <a href="profile.html" class="">Meu Perfil</a>
                 <a href="resources.html" class="">Recursos & Dicas</a>
                 <a href="contratador.html">Publicar Vaga</a>
-             
+
 
             </nav>
         </div>
@@ -63,35 +63,92 @@
         <div class="nube-container">
             <h2 class="nube-section-title">Minhas Candidaturas</h2>
             <div class="nube-card-grid">
-                <div class="nube-candidatura-card">
+                <div class="nube-candidatura-card" data-title="Estágio em Análise de Dados"
+                    data-company="Data Insights Ltda." data-location="Status: Em Análise" data-salary="Não especificado"
+                    data-workload="Não especificado" data-benefits="Não especificado"
+                    data-description="Os detalhes desta vaga estarão disponíveis caso você avance no processo seletivo.">
+
                     <h3 class="nube-vaga-title">Estágio em Análise de Dados</h3>
                     <p class="nube-vaga-empresa">Data Insights Ltda.</p>
                     <p class="nube-vaga-location">Status: <span class="nube-status-analise">Em Análise</span></p>
                     <p class="nube-vaga-location">Candidatura enviada em: 20/05/2025</p>
                     <button class="nube-btn-details">Ver Detalhes da Vaga</button>
                 </div>
-                <div class="nube-candidatura-card">
-                    <h3 class="nube-vaga-title">Jovem Aprendiz de TI</h3>
-                    <p class="nube-vaga-empresa">Inovatech Solutions</p>
-                    <p class="nube-vaga-location">Status: <span class="nube-status-visualizado">Visualizado pela
-                            Empresa</span></p>
+                <div class="nube-candidatura-card" data-title="Estágio em UX/UI Design" data-company="DesignHub Studio"
+                    data-location="Status: Em Análise" data-salary="Não especificado" data-workload="Não especificado"
+                    data-benefits="Não especificado"
+                    data-description="Os detalhes desta vaga estarão disponíveis caso você avance no processo seletivo.">
+
+                    <h3 class="nube-vaga-title">Estágio em UX/UI Design</h3>
+                    <p class="nube-vaga-empresa">DesignHub Studio</p>
+                    <p class="nube-vaga-location">Status: <span class="nube-status-analise">Em Análise</span></p>
+                    <p class="nube-vaga-location">Candidatura enviada em: 22/05/2025</p>
+                    <button class="nube-btn-details">Ver Detalhes da Vaga</button>
+                </div>
+
+                <div class="nube-candidatura-card" data-title="Estágio em Desenvolvimento Mobile"
+                    data-company="AppSolutions BR" data-location="Status: Aguardando Retorno"
+                    data-salary="Não especificado" data-workload="Não especificado" data-benefits="Não especificado"
+                    data-description="Os detalhes desta vaga estarão disponíveis caso você avance no processo seletivo.">
+
+                    <h3 class="nube-vaga-title">Estágio em Desenvolvimento Mobile</h3>
+                    <p class="nube-vaga-empresa">AppSolutions BR</p>
+                    <p class="nube-vaga-location">Status: <span class="nube-status-analise">Aguardando Retorno</span>
+                    </p>
                     <p class="nube-vaga-location">Candidatura enviada em: 18/05/2025</p>
                     <button class="nube-btn-details">Ver Detalhes da Vaga</button>
                 </div>
-                <div class="nube-candidatura-card">
-                    <h3 class="nube-vaga-title">Estágio em Design Gráfico</h3>
-                    <p class="nube-vaga-empresa">Criativa Agência</p>
-                    <p class="nube-vaga-location">Status: <span class="nube-status-encerrado">Processo Encerrado</span>
-                    </p>
+
+                <div class="nube-candidatura-card" data-title="Estágio em Engenharia de Software"
+                    data-company="NextTech Sistemas" data-location="Status: Reprovado" data-salary="Não especificado"
+                    data-workload="Não especificado" data-benefits="Não especificado"
+                    data-description="Os detalhes desta vaga estarão disponíveis caso você avance no processo seletivo.">
+
+                    <h3 class="nube-vaga-title">Estágio em Engenharia de Software</h3>
+                    <p class="nube-vaga-empresa">NextTech Sistemas</p>
+                    <p class="nube-vaga-location">Status: <span class="nube-status-analise">Reprovado</span></p>
                     <p class="nube-vaga-location">Candidatura enviada em: 15/05/2025</p>
                     <button class="nube-btn-details">Ver Detalhes da Vaga</button>
                 </div>
+
             </div>
             <div class="nube-centered-button-wrapper">
                 <button class="nube-btn-primary">Ver Todas as Minhas Candidaturas</button>
             </div>
         </div>
     </section>
+
+    <div id="vacancy-details-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-2xl w-full max-w-2xl shadow-lg relative max-h-[90vh] overflow-y-auto">
+            <button id="close-vacancy-modal"
+                class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            <h2 id="modal-vaga-title" class="text-2xl font-bold mb-2 text-gray-800">Carregando...</h2>
+            <p id="modal-vaga-company" class="text-lg text-gray-600 mb-1">Carregando...</p>
+            <p id="modal-vaga-location" class="text-md text-gray-500 mb-4">Carregando...</p>
+
+            <div class="border-t border-gray-200 my-4"></div>
+
+            <div class="space-y-3">
+                <div>
+                    <h4 class="font-semibold">Descrição da Vaga:</h4>
+                    <p id="modal-vaga-description" class="text-gray-700">Carregando...</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Bolsa/Salário:</h4>
+                    <p id="modal-vaga-salary" class="text-gray-700">Carregando...</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Carga Horária:</h4>
+                    <p id="modal-vaga-workload" class="text-gray-700">Carregando...</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold">Benefícios:</h4>
+                    <p id="modal-vaga-benefits" class="text-gray-700">Carregando...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="nube-footer">
         <div class="nube-container nube-footer-grid">
@@ -206,4 +263,3 @@
 </body>
 
 </html>
-
