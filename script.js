@@ -1,42 +1,3 @@
-// script.js
-
-// Função genérica para ativar/desativar a visibilidade da senha
-function setupPasswordToggle(inputId, toggleId) {
-  const input = document.getElementById(inputId);
-  const toggle = document.getElementById(toggleId);
-
-  if (input && toggle) { // Garante que os elementos existem
-    toggle.addEventListener('click', function () {
-      const isPassword = input.type === 'password';
-      input.type = isPassword ? 'text' : 'password';
-
-      // Altera o ícone do olho com base no estado
-      toggle.innerHTML = isPassword
-        ? `
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7
-                            a9.993 9.993 0 011.836-3.042m3.104-2.546A9.978 9.978 0 0112 5
-                            c4.478 0 8.268 2.943 9.542 7a9.978 9.978 0 01-4.043 5.107M15
-                            12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 3l18 18" />
-                    </svg>
-                `
-        : `
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5
-                            c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542
-                            7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                `;
-    });
-  }
-}
-
 // Executa tudo após o carregamento completo do DOM
 document.addEventListener("DOMContentLoaded", () => {
   initMobileMenu();
@@ -47,12 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
   initVacancyDetailsModal();
   initCandidacyPageLogic();
   initPublicarVaga();
-  initCadastroPage();
+  initCadastroPage(); // <-- NOVA FUNÇÃO CHAMADA AQUI
   // O sistema de autenticação é inicializado automaticamente pelo auth.js
 });
 
 /* -------------------------------------------
-   👁️ LÓGICA DA PÁGINA DE CADASTRO
+   👁️ LÓGICA DA PÁGINA DE CADASTRO (NOVA FUNÇÃO)
 -------------------------------------------- */
 function initCadastroPage() {
   // Garante que este código só execute na página de cadastro
@@ -113,7 +74,6 @@ function initModalAuth() {
         if (modalTitle) modalTitle.textContent = "Login";
         if (modalSubmitBtn) modalSubmitBtn.textContent = "Entrar";
         modal.classList.remove("hidden");
-        // Chamada para a função genérica de mostrar/ocultar senha do modal de login
         setupPasswordToggle('senha', 'login-password-toggle');
         const input = modal.querySelector("input, button");
         if (input) input.focus();
@@ -179,7 +139,7 @@ function initSearchPageLogic() {
 
   const VAGAS_POR_PAGINA = 9;
   let vagasVisiveis = VAGAS_POR_PAGINA;
-  let todasAsVagas = []; // Será preenchido com vagas do HTML e localStorage
+  let todasAsVagas = [];
   let vagasFiltradas = [];
 
   const form = document.querySelector(".nube-search-bar");
@@ -189,55 +149,8 @@ function initSearchPageLogic() {
 
   if (!form || !grid || !btnCarregarMais || !loadingSpinner) return;
 
-  // --- NOVA LÓGICA: Carregar e Combinar Vagas ---
-
-  // 1. Carregar vagas hardcoded do HTML
-  // Apanha os cards existentes na página (hardcoded)
-  const vagasHardcoded = Array.from(grid.querySelectorAll(".nube-vaga-card"));
-
-  // 2. Carregar vagas do localStorage
-  const vagasSalvas = JSON.parse(localStorage.getItem("vacancies")) || [];
-
-  // Criar elementos HTML para as vagas salvas (elas não existem no HTML inicialmente)
-  const vagasSalvasHTML = vagasSalvas.map(vaga => {
-    const card = document.createElement('div');
-    card.className = 'nube-vaga-card';
-    // Adicionar data attributes para o filtro e modal
-    card.dataset.title = vaga.title;
-    card.dataset.company = vaga.company;
-    card.dataset.location = vaga.location;
-    card.dataset.salary = vaga.salary;
-    card.dataset.workload = vaga.workload;
-    card.dataset.benefits = Array.isArray(vaga.benefits) ? vaga.benefits.join(', ') : vaga.benefits; // Certifica que benefícios é string
-    card.dataset.description = vaga.description;
-
-    card.innerHTML = `
-          <h3 class="nube-vaga-title">${vaga.title}</h3>
-          <p class="nube-vaga-empresa">${vaga.company}</p>
-          <p class="nube-vaga-location">${vaga.location}</p>
-          <ul class="nube-vaga-details-list">
-              <li>Bolsa: ${vaga.salary || 'Não informado'}</li>
-              <li>Carga horária: ${vaga.workload || 'Não informada'}</li>
-              <li>Benefícios: ${Array.isArray(vaga.benefits) ? vaga.benefits.join(', ') : vaga.benefits || 'Não informados'}</li>
-          </ul>
-          <div class="nube-vaga-footer-meta">
-              <button class="nube-btn-details">Ver Detalhes</button>
-              <span class="nube-vaga-date-posted">Publicada em ${vaga.datePosted || 'Data desconhecida'}</span>
-          </div>
-      `;
-    return card;
-  });
-
-  // 3. Limpar a grade existente e adicionar todas as vagas (salvas e hardcoded)
-  grid.innerHTML = ''; // Limpa as vagas hardcoded existentes antes de adicioná-las novamente
-  vagasHardcoded.forEach(card => grid.appendChild(card)); // Adiciona as vagas hardcoded de volta
-  vagasSalvasHTML.forEach(card => grid.appendChild(card)); // Adiciona as novas vagas
-
-  // Recarrega todas as vagas, agora incluindo as do localStorage e as hardcoded
   todasAsVagas = Array.from(grid.querySelectorAll(".nube-vaga-card"));
-  // --- FIM DA NOVA LÓGICA ---
-
-  vagasFiltradas = [...todasAsVagas]; // Inicializa com todas as vagas disponíveis
+  vagasFiltradas = [...todasAsVagas];
 
   const [cargoInput, localInput] = form.querySelectorAll("input");
   const salarioSelect = document.getElementById('faixa-salarial');
@@ -254,9 +167,9 @@ function initSearchPageLogic() {
   };
 
   function exibirVagas() {
-    todasAsVagas.forEach(card => card.style.display = 'none'); // Oculta todas
+    todasAsVagas.forEach(card => card.style.display = 'none');
     const vagasParaExibir = vagasFiltradas.slice(0, vagasVisiveis);
-    vagasParaExibir.forEach(card => card.style.display = ''); // Exibe as filtradas e visíveis
+    vagasParaExibir.forEach(card => card.style.display = '');
     btnCarregarMais.style.display = vagasVisiveis >= vagasFiltradas.length ? 'none' : '';
   }
 
@@ -319,7 +232,7 @@ function initSearchPageLogic() {
     exibirVagas();
   });
 
-  exibirVagas(); // Chamada inicial para exibir as vagas
+  exibirVagas();
 }
 
 /* ------------------------------
@@ -432,3 +345,37 @@ function initCandidacyPageLogic() {
   });
   exibirCandidaturas();
 }
+
+/* ---------------------------------------
+   👁️ FUNÇÃO PARA MOSTRAR/ESCONDER SENHA
+---------------------------------------- */
+
+document.addEventListener('DOMContentLoaded', function () {
+  const toggleSenha = document.getElementById('toggleSenha');
+  const inputSenha = document.getElementById('senha');
+
+  toggleSenha.addEventListener('click', function () {
+    const isPassword = inputSenha.type === 'password';
+    inputSenha.type = isPassword ? 'text' : 'password';
+
+    toggleSenha.innerHTML = isPassword
+      ? `
+                <!-- Olho com risco (fechado) -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.993 9.993 0 011.836-3.042m3.104-2.546
+                        A9.978 9.978 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.978 9.978 0 01-4.043 5.107M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" />
+                </svg>
+            `
+      : `
+                <!-- Olho aberto -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+            `;
+  });
+});
