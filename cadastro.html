@@ -152,19 +152,18 @@
     </div>
     <script src="script.js"></script>
     <script src="auth.js"></script>
- <script>
-document.addEventListener('DOMContentLoaded', function() {
-    function setupToggle(inputId, toggleId) {
-        const input = document.getElementById(inputId);
-        const toggle = document.getElementById(toggleId);
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function setupToggle(inputId, toggleId) {
+                const input = document.getElementById(inputId);
+                const toggle = document.getElementById(toggleId);
 
-        toggle.addEventListener('click', function() {
-            const isPassword = input.type === 'password';
-            input.type = isPassword ? 'text' : 'password';
+                toggle.addEventListener('click', function () {
+                    const isPassword = input.type === 'password';
+                    input.type = isPassword ? 'text' : 'password';
 
-            toggle.innerHTML = isPassword
-                ? `
-                    <!-- Olho com risco (fechado) -->
+                    toggle.innerHTML = isPassword
+                        ? `
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7
@@ -175,8 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             d="M3 3l18 18" />
                     </svg>
                 `
-                : `
-                    <!-- Olho aberto -->
+                        : `
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -186,13 +184,33 @@ document.addEventListener('DOMContentLoaded', function() {
                             7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                 `;
-        });
-    }
+                });
+            }
 
-    setupToggle('senha', 'senha-toggle');
-    setupToggle('confirmar_senha', 'confirmar_senha-toggle');
-});
-</script>
+            setupToggle('senha', 'senha-toggle');
+            setupToggle('confirmar_senha', 'confirmar_senha-toggle');
+
+            // NOVO CÓDIGO PARA FORMATAÇÃO DA DATA
+            const birthDateInput = document.getElementById('data_nascimento');
+            if (birthDateInput) {
+                birthDateInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+                    let formattedValue = '';
+
+                    if (value.length > 0) {
+                        formattedValue = value.substring(0, 2); // DD
+                        if (value.length >= 3) {
+                            formattedValue += '/' + value.substring(2, 4); // DD/MM
+                        }
+                        if (value.length >= 5) {
+                            formattedValue += '/' + value.substring(4, 8); // DD/MM/AAAA
+                        }
+                    }
+                    e.target.value = formattedValue;
+                });
+            }
+        });
+    </script>
 
 </body>
 
